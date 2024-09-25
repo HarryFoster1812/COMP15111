@@ -75,45 +75,45 @@ Reset the program, change the contents of the memory location for "**`cnt`**" an
 
 Important: Do not edit the answers.txt file directly on the browser. Instead, use an editor on your machine and commit your file following the instructions.
 
-All values used in any of the answers below must be in hexadecimal.
+*All values used in any of the answers below must be in hexadecimal.*
 
-- Q1) After executing the `lw x10, cnt` instruction, the value of PC is ... and of x10 is ...     0.5 Point
-- Q2) After executing the `lw x11, unit` instruction, the value of PC is ... and of x11 is ...    0.5 Point
-- Q3) After executing the `lw x12, alpha` instruction, the value of PC is ... and of x12 is ...   0.5 Point
+- Q1) After executing the `lw x10, cnt` instruction, the value of PC is ... and of x10 is ...               0.5 Point
+- Q2) After executing the `lw x11, unit` instruction, the value of PC is ... and of x11 is ...               0.5 Point
+- Q3) After executing the `lw x12, alpha` instruction, the value of PC is ... and of x12 is ...               0.5 Point
 
-The lw instructions above are pseudo-instructions, so in machine code they are replaced with two instructions. "After executing the lw..." in this context means after executing both machine instructions corresponding to the lw.
+*The lw instructions above are pseudo-instructions, so in machine code they are replaced with two instructions. "After executing the lw..." in this context means after executing both machine instructions corresponding to the lw.*
 
 ---
 
 Try typing PC or PC-8 (followed by pressing the <Enter> key, also known as "return" or "carriage return") in the box just at the top of the memory pane, between "Memory Main Window" and the memory contents. Try stepping through the program again – what happens now?
 
 For Q4, Q5 we are asking about the "working" registers, not PC): 
-- Q4) The first time the mul instruction is obeyed, the value of register ... changes from ... to ...   0.5 Point
-- Q5) The first time the sub instruction is obeyed, the value of register ... changes from ... to ...   0.5 Point
+- Q4) The first time the mul instruction is obeyed, the value of register ... changes from ... to ...               0.5 Point
+- Q5) The first time the sub instruction is obeyed, the value of register ... changes from ... to ...               0.5 Point
 
 ---
 
 As a result of running the program from the beginning until it stops at the ecall instruction: 
-- Q6) The beq instruction (address 0x38) is executed ... times, but branches back only ... times    0.5 Point
-- Q7) Register ... counts down from ... to ...                                                      0.5 Point
-- Q8) Which arithmetic operation does the program implement? Write down the equation                0.5 Point
+- Q6) The beq instruction *in the loop* (address 0x38) is executed ... times, but branches to end only ... times                     0.5 Point
+- Q7) Register ... counts down from... to ...                     0.5 Point
+- Q8) Which arithmetic operation does the program implement? Write down the equation in terms of the variables, val0, unit, alpha, cnt, and res                     0.5 Point
 
 ---
 
-**Task2**: Open your copy of the file "solution.s" in your repository and answer these questions by directly modifying the file.
+**Task2**: Open your copy of the file "**solution.s**" in your repository and answer these questions by directly modifying the file.
 
 You are now going to make a set of small changes to the program. Load "solution.s" into your favourite plain text editor (e.g., gedit, nedit, notepad) and start experimenting with the code. "solution.s" is a copy of "part1.s". We ask you to modify "solution.s" and not "part1.s" so that you are able to revisit Q1-Q8 even after you’ve changed the code for Q9-Q11.
 
 Answer the following question(s) by directly editing your "solution.s". Make all your changes in the same file. Make sure your solution is still syntactically and functionally correct.
-- Q9) Optimize the two control flow instructions within the loop by replacing them with one instruction. You must maintain the same functionality of the whole program.                 2 Points
+- Q9) Optimize the two control flow instructions *inside the loop* by replacing them with one instruction. You must maintain the original functionality of the whole program. Test your output for different variable values.                     2 Points
 - Q10) The program can be made more efficient by eliminating any use of val0. Can you change the code to achieve this while maintaining the original functionality?                     2 Points
-- Q11) At least one other variable could be replaced with an immediate instruction, further reducing the number of instructions in the program. Think about what kind of values we can replace with immediates? Replace one variable using immediates by modifying the code  appropriately              2 Points
+- Q11) At least one other variable could be replaced with an immediate instruction, *reducing the number of registers needed*. Think about what kind of values we can replace with immediates and what kind of instructions take an immediate argument? Replace one variable using immediates by modifying the code  appropriately.                     2 Points
 
 ---
 
 **Task3**: Stretch Goal. You can still get a perfect 10 without answering it. Since it requires a rewrite of the solution, we will make the changes in a different file, "solution\_stretch.s".
 
-- Q12) Write a solution that achieves the same result (assuming alpha = 2 and unit = 1) while using only six assembly (pseudo or real) instructions (four instructions excluding the two ecall-related ones)    1 Point
+- Q12) Write a solution that achieves the same result (assuming alpha = 2 and unit = 1) while using six or less assembly (pseudo or real) instructions (four or less instructions excluding the two ecall-related ones)    1 Point
 
 ## 1.8  Completion, Feedback and Marking Process
 The total mark for Lab 1 is 10 points. You need to edit the "answers.txt" file with your answers (replace the (?) with your answers) for Q1-Q8.

@@ -14,11 +14,11 @@ Q5) The first time the "sub" instruction is obeyed, the value of register (?) ch
 
 (For Q6, Q7, and Q8, we are asking about the effect of running the program from the beginning until it stops at the ecall instruction, not about the effect of just one instruction)
 
-Q6) the "beq" instruction (in the loop) is executed (?) times but branches back only (?) times
+Q6) the "beq" instruction (in the loop) is executed (?) times but branches back to end only (?) times
 
 Q7) register (?) counts down from (?) to (?)
 
-Q8) which arithemtic operation does the program implement? (write down the equation)
+Q8) which arithmetic operation does the program implement? (write down the equation in terms of variables val0, unit, alpha, cnt, and res) (?)
 
 
 Answer Q9-Q11 by directly editing solution.s
