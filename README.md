@@ -94,9 +94,9 @@ For Q4, Q5 we are asking about the "working" registers, not PC):
 ---
 
 As a result of running the program from the beginning until it stops at the ecall instruction: 
-- Q6) The beq instruction *in the loop* (address 0x38) is executed ... times, but branches to end only ... times                     0.5 Point
-- Q7) Register ... counts down from... to ...                                                                                          1 Point
-- Q8) Which arithmetic operation does the program implement? Write down the equation in terms of the variables val0, unit, alpha, cnt, and res                                                                                               1 Point
+- Q6) The beq instruction *in the loop* (address 0x38) is executed ... times, but branches to end only ... times  0.5 Point
+- Q7) Register ... counts down from... to ...                                                                                                      1 Point
+- Q8) Which arithmetic operation does the program implement? Write down the equation in terms of the variables val0, unit, alpha, cnt, and res                                                                                                                          1 Point
 
 ---
 
