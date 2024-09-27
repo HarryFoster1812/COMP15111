@@ -96,7 +96,7 @@ For Q4, Q5 we are asking about the "working" registers, not PC):
 As a result of running the program from the beginning until it stops at the ecall instruction: 
 - Q6) The beq instruction *in the loop* (address 0x38) is executed ... times, but branches to end only ... times  0.5 Point
 - Q7) Register ... counts down from... to ...                                                                                                                1 Point
-- Q8) Which arithmetic operation does the program implement? Write down the equation in terms of the variables val0, unit, alpha, cnt, and res                                                                                                                                                               1 Point
+- Q8) Which arithmetic operation does the program implement? Write down the equation in terms of the variables val0, unit, alpha, cnt, and res                                                                                                                                                        1 Point
 
 ---
 
@@ -105,9 +105,9 @@ As a result of running the program from the beginning until it stops at the ecal
 You are now going to make a set of small changes to the program. Load "solution.s" into your favourite plain text editor (e.g., gedit, nedit, notepad) and start experimenting with the code. "solution.s" is a copy of "part1.s". We ask you to modify "solution.s" and not "part1.s" so that you are able to revisit Q1-Q8 even after you’ve changed the code for Q9-Q11.
 
 Answer the following question(s) by directly editing your "solution.s". Make all your changes in the same file. Make sure your solution is still syntactically and functionally correct.
-- Q9) The program can be made more efficient by eliminating any use of val0. Can you change the code to achieve this while maintaining the original functionality?                                                                        2 Points
+- Q9) The program can be made more efficient by eliminating any use of val0. Can you change the code to achieve this while maintaining the original functionality?                                                                                2 Points
 - Q10) At least one other variable could be replaced with an immediate instruction, *reducing the number of registers needed*. Think about what kind of values we can replace with immediates and what kind of instructions take an immediate argument? Replace one variable using immediates by modifying the code  appropriately.                     2 Points
-- Q11) Optimise the two control flow instructions *inside the loop* (i.e. not the first branch before the loop) by replacing them with one instruction. You must maintain the original functionality of the whole program. Test your output for different input variable values.                                                         1 Point
+- Q11) Optimise the two control flow instructions *inside the loop* (i.e. not the first branch before the loop) by replacing them with one instruction. You must maintain the original functionality of the whole program. Test your output for different input variable values.                                                                                                       1 Point
 
 ---
 
