@@ -29,7 +29,7 @@ main
 	;   read character into x10
 	;   break if x10 is a decimal digit
 	;
-	; store in op1 the number corresponding to the character x10
+	; store in op2 the number corresponding to the character x10
 	; print character in x10
 	; print '\n' (change line)
 	
