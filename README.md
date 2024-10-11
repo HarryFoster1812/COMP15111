@@ -75,6 +75,7 @@ The total mark for Lab 2 is 10 points. As soon as you have completed the exercis
 We will mark all submissions within 2 weeks of the deadline. We will provide detailed feedback, which you will receive by email when we mark your submission. We will also discuss this assignment in a live session after the extended submission deadline.
 
 File(s) to be committed to Gitlab
-    1. part1.s,
-    2. part2.s and
-    3. part3.s.
+
+1. part1.s,
+2. part2.s and
+3. part3.s.
