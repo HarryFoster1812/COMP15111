@@ -1,9 +1,10 @@
 	j main
 
-op1_msg	defb	"Operand 1:  \0"
-op2_msg	defb	"Operand 2:  \0"
-new_line defb	"\n\0"
-result_msg defb	"Result of Addition: \0"
+op1_msg		defb	"Operand 1:  \0"
+op2_msg		defb	"Operand 2:  \0"
+new_line 	defb	"\n\0"
+result_msg 	defb	"Result of Addition: \0"
+operator_msg 	defb	"Please select your operation (+,-): \0"
 
 op1	defb 0
 op2 	defb 0
@@ -55,12 +56,40 @@ storeop
 	
 	
 execute
-
 	lb x1, op1 ; get op1
 	lb x2, op2; get op2
-	add x1, x1, x2  ; res = op1 + op2
-	sb x1, res, x5; store result
 	
+	;print the operation msg
+	la x10, operator_msg
+	li x17, 2
+	ecall  
+	
+	; get the operation 
+	li x17, 1
+	ecall
+	mv x3, x10
+	; print entered value
+	li x17, 0
+	ecall
+	; print new line
+	la x10, new_line
+	li x17, 2
+	ecall
+	
+	li x4, '-'
+	beq x3, x4, subnum	
+	
+	;if add
+	add x1, x1, x2  ; res = op1 + op2
+	j printresult
+
+subnum
+	;if sub
+	sub x1, x1, x2	
+	j checknegative
+	
+printresult
+	sb x1, res, x5; store result
 	la x10, result_msg
 	li x17, 2
 	ecall  ; print("Result of Addition: ")
@@ -70,7 +99,7 @@ execute
 	addi x1, x1, '0'; print(res) on the same line as the previous print
 	mv x10, x1
 	li x17, 0
-	j endprogram
+	j printsingle
 	
 greaterthanten
 	subi x1, x1, 10;  since single digits will always be between 10 and 20
@@ -80,12 +109,18 @@ greaterthanten
 	addi x1, x1, '0'
 	mv x10, x1
 	
-endprogram
+printsingle
 	ecall ; print
 	la x10, new_line
 	li x17, 2
 	ecall
-	
+endprogram	
 	li x17, 5
 	ecall 		; stop!
 	
+
+checknegative
+	
+	
+printnegative
+	j printresult
