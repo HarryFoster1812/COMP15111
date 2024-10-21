@@ -4,7 +4,7 @@ op1_msg		defb	"Operand 1:  \0"
 op2_msg		defb	"Operand 2:  \0"
 new_line 	defb	"\n\0"
 result_msg 	defb	"Result of Addition: \0"
-operator_msg 	defb	"Please select your operation (+,-): \0"
+operator_msg 	defb	"Please select your operation (+,-, e): \0"
 
 op1	defb 0
 op2 	defb 0
@@ -79,6 +79,13 @@ execute
 	li x4, '-'
 	beq x3, x4, subnum	
 	
+	li x4, 'e'
+	beq x3, x4, endprogram
+	
+	li x4, '+'
+	bne x3, x4, main
+	
+	
 	;if add
 	add x1, x1, x2  ; res = op1 + op2
 	j printresult
@@ -115,6 +122,7 @@ printsingle
 	la x10, new_line
 	li x17, 2
 	ecall
+	j main
 endprogram	
 	li x17, 5
 	ecall 		; stop!
@@ -126,6 +134,4 @@ checknegative
 	li x10, 45
 	li x17, 0
 	ecall
-	
 	j printnum
-
