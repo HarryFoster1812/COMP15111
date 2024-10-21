@@ -120,7 +120,10 @@ endprogram
 	
 
 checknegative
+	bgteq x1, printresult
+	neg x1, x1
+	li x10, 45
+	li x17, 0
+	ecall
 	
-	
-printnegative
 	j printresult
