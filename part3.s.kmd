@@ -33,142 +33,127 @@ KMD
 00000060:             ; 
 00000060:             ;         align
 00000060:             ; main
-00000060: 03000113    ; li x2, '0'
-00000064: 03900193    ; li x3, '9'
-00000068: 00100213    ; li x4, 1
-0000006C: 00000517    ;         la x10, op1_msg 
-00000070: F9850513    ; 
-00000074: 00200893    ;         li x17, 2
-00000078: 00000073    ;         ecall   ; print("Operand 1: ")
-0000007C:             ;         
-0000007C:             ; loop
-0000007C: 00100893    ;         li x17, 1
-00000080: 00000073    ;         ecall
-00000084: 00050093    ;         mv x1, x10
-00000088:             ;         
-00000088: FE20CAE3    ;         blt x1, x2, loop
-0000008C: FE11C8E3    ;         bgt x1, x3, loop
-00000090:             ;         
-00000090: 00000893    ;         li x17, 0
-00000094: 00000073    ;         ecall  ; print character in x10
-00000098: 402080B3    ;         sub x1, x1, x2
-0000009C: 02020C63    ;         beqz x4, storeop
-000000A0:             ; 
-000000A0: 00000317    ;         sb x1, op1, x6  ; store in op1 the number corresponding to the character x10
-000000A4: FA130EA3    ; 
-000000A8:             ; 
-000000A8:             ; 
-000000A8:             ; printnewline
-000000A8: 00000517    ;         la x10, new_line
-000000AC: F7650513    ; 
-000000B0: 00200893    ;         li x17, 2
-000000B4: 00000073    ;         ecall
-000000B8: 02020463    ;         beqz x4, execute
-000000BC:             ; 
-000000BC: 00000517    ;         la x10, op2_msg
-000000C0: F5550513    ; 
-000000C4: 00200893    ;         li x17, 2
-000000C8: 00000073    ;         ecall           ; print("Operand 2: ")
-000000CC: 00000213    ;         mv x4, x0
-000000D0: FADFF06F    ;         j loop
-000000D4:             ; 
+00000060: 00900193    ; li x3, 9
+00000064:             ; 
+00000064: 00000517    ;         la x10, op1_msg 
+00000068: FA050513    ; 
+0000006C: 00200893    ;         li x17, 2
+00000070: 00000073    ;         ecall   ; print("Operand 1: ")
+00000074:             ;         
+00000074:             ; loop1
+00000074: 00100893    ;         li x17, 1
+00000078: 00000073    ;         ecall
+0000007C: FD050093    ;         subi x1, x10, '0'       
+00000080: FE11EAE3    ;         bgtu x1, x3, loop1
+00000084:             ;         
+00000084: 00000893    ;         li x17, 0
+00000088: 00000073    ;         ecall  ; print character in x10
+0000008C:             ; 
+0000008C:             ; 
+0000008C: 00000517    ;         la x10, new_line
+00000090: F9250513    ; 
+00000094: 00200893    ;         li x17, 2
+00000098: 00000073    ;         ecall
+0000009C:             ; 
+0000009C: 00000517    ;         la x10, op2_msg
+000000A0: F7550513    ; 
+000000A4: 00200893    ;         li x17, 2
+000000A8: 00000073    ;         ecall           ; print("Operand 2: ")
+000000AC:             ; 
+000000AC:             ; loop2
+000000AC: 00100893    ;         li x17, 1
+000000B0: 00000073    ;         ecall
+000000B4:             ;         
+000000B4: FD050113    ;         subi x2, x10, '0'       
+000000B8: FE21EAE3    ;         bgtu x2, x3, loop2
+000000BC:             ;         
+000000BC: 00000893    ;         li x17, 0
+000000C0: 00000073    ;         ecall  ; print character in x10
+000000C4:             ;         
+000000C4: 00000517    ;         la x10, new_line
+000000C8: F5A50513    ; 
+000000CC: 00200893    ;         li x17, 2
+000000D0: 00000073    ;         ecall
 000000D4:             ;         
-000000D4:             ; storeop
-000000D4: 00000297    ;         sb x1, op2, x5  ; store in op2 the number corresponding to the character x10
-000000D8: F8128523    ; 
-000000DC: FCDFF06F    ;         j printnewline  ; print '\n' (change line)
-000000E0:             ; 
-000000E0:             ;         
-000000E0:             ;         
-000000E0:             ;         
-000000E0:             ; execute
-000000E0: 00000097    ;         lb x1, op1 ; get op1
-000000E4: F7D08083    ; 
-000000E8: 00000117    ;         lb x2, op2; get op2
-000000EC: F7610103    ; 
-000000F0:             ;         
-000000F0:             ;         ;print the operation msg
-000000F0: 00000517    ;         la x10, operator_msg
-000000F4: F4550513    ; 
-000000F8: 00200893    ;         li x17, 2
-000000FC: 00000073    ;         ecall  
-00000100:             ;         
-00000100:             ;         ; get the operation 
-00000100: 00100893    ;         li x17, 1
+000000D4:             ; execute
+000000D4:             ;         ;print the operation msg
+000000D4: 00000517    ;         la x10, operator_msg
+000000D8: F6150513    ; 
+000000DC: 00200893    ;         li x17, 2
+000000E0: 00000073    ;         ecall  
+000000E4:             ;         
+000000E4:             ;         ; get the operation 
+000000E4: 00100893    ;         li x17, 1
+000000E8: 00000073    ;         ecall
+000000EC: 00050193    ;         mv x3, x10
+000000F0:             ;         ; print entered value
+000000F0: 00000893    ;         li x17, 0
+000000F4: 00000073    ;         ecall
+000000F8:             ;         ; print new line
+000000F8: 00000517    ;         la x10, new_line
+000000FC: F2650513    ; 
+00000100: 00200893    ;         li x17, 2
 00000104: 00000073    ;         ecall
-00000108: 00050193    ;         mv x3, x10
-0000010C:             ;         ; print entered value
-0000010C: 00000893    ;         li x17, 0
-00000110: 00000073    ;         ecall
-00000114:             ;         ; print new line
-00000114: 00000517    ;         la x10, new_line
-00000118: F0A50513    ; 
-0000011C: 00200893    ;         li x17, 2
-00000120: 00000073    ;         ecall
-00000124:             ;         
-00000124: 02D00213    ;         li x4, '-'
-00000128: 00418E63    ;         beq x3, x4, subnum      
-0000012C:             ;         
-0000012C: 06500213    ;         li x4, 'e'
-00000130: 06418E63    ;         beq x3, x4, endprogram
-00000134:             ;         
-00000134: 02B00213    ;         li x4, '+'
-00000138: F24194E3    ;         bne x3, x4, main
-0000013C:             ;         
-0000013C:             ;         
-0000013C:             ;         ;if add
-0000013C: 002080B3    ;         add x1, x1, x2  ; res = op1 + op2
-00000140: 0080006F    ;         j printresult
-00000144:             ; 
-00000144:             ; subnum
-00000144:             ;         ;if sub
-00000144: 402080B3    ;         sub x1, x1, x2
-00000148:             ;         
-00000148:             ; printresult
-00000148: 00000297    ;         sb x1, res, x5; store result
-0000014C: F0128BA3    ; 
-00000150: 00000517    ;         la x10, result_msg
-00000154: ED050513    ; 
-00000158: 00200893    ;         li x17, 2
-0000015C: 00000073    ;         ecall  ; print("Result of Addition: ")
+00000108:             ;         
+00000108: 02D00213    ;         li x4, '-'
+0000010C: 06418863    ;         beq x3, x4, subnum      
+00000110:             ;         
+00000110: 06500213    ;         li x4, 'e'
+00000114: 06418063    ;         beq x3, x4, endprogram
+00000118:             ;         
+00000118: 02B00213    ;         li x4, '+'
+0000011C: F44192E3    ;         bne x3, x4, main
+00000120:             ;         
+00000120: 00000517    ;         la x10, result_msg
+00000124: F0050513    ; 
+00000128: 00200893    ;         li x17, 2
+0000012C: 00000073    ;         ecall  ; print("Result of Addition: ")
+00000130:             ;         
+00000130:             ;         
+00000130:             ;         ;if add
+00000130: 002080B3    ;         add x1, x1, x2  ; res = op1 + op2
+00000134:             ; 
+00000134:             ; 
+00000134:             ; printnum
+00000134: 0011C863    ;         bgt x1, x3, greaterthanten 
+00000138:             ; 
+00000138: 00008513    ;         mv x10, x1
+0000013C: 00300893    ;         li x17, 3
+00000140: 01C0006F    ;         j printsingle
+00000144:             ;         
+00000144:             ; greaterthanten
+00000144: FF608093    ;         subi x1, x1, 10;  since single digits will always be between 10 and 20
+00000148: 03100513    ;         li x10, '1'
+0000014C: 00000893    ;         li x17, 0
+00000150: 00000073    ;         ecall
+00000154: 00008513    ;         mv x10, x1
+00000158: 00300893    ;         li x17, 3
+0000015C:             ;         
+0000015C:             ; printsingle
+0000015C: 00000073    ;         ecall ; print
 00000160:             ;         
-00000160: 0540006F    ;         j checknegative
-00000164:             ; printnum
-00000164: 00A00213    ;         li x4, 10
-00000168: 00124A63    ;         bgt x1, x4, greaterthanten 
-0000016C: 03008093    ;         addi x1, x1, '0'; print(res) on the same line as the previous print
-00000170: 00008513    ;         mv x10, x1
-00000174: 00000893    ;         li x17, 0
-00000178: 01C0006F    ;         j printsingle
-0000017C:             ;         
-0000017C:             ; greaterthanten
-0000017C: FF608093    ;         subi x1, x1, 10;  since single digits will always be between 10 and 20
-00000180: 03100513    ;         li x10, '1'
-00000184: 00000893    ;         li x17, 0
-00000188: 00000073    ;         ecall
-0000018C: 03008093    ;         addi x1, x1, '0'
-00000190: 00008513    ;         mv x10, x1
-00000194:             ;         
-00000194:             ; printsingle
-00000194: 00000073    ;         ecall ; print
-00000198: 00000517    ;         la x10, new_line
-0000019C: E8650513    ; 
-000001A0: 00200893    ;         li x17, 2
-000001A4: 00000073    ;         ecall
-000001A8: EB9FF06F    ;         j main
-000001AC:             ; endprogram      
-000001AC: 00500893    ;         li x17, 5
-000001B0: 00000073    ;         ecall           ; stop!
-000001B4:             ;         
-000001B4:             ; 
-000001B4:             ; checknegative
-000001B4: FA00D8E3    ;         bgez x1, printnum
-000001B8: 401000B3    ;         neg x1, x1
-000001BC: 02D00513    ;         li x10, 45
-000001C0: 00000893    ;         li x17, 0
-000001C4: 00000073    ;         ecall
-000001C8: F9DFF06F    ;         j printnum
-000001CC:             ; 
+00000160: 00000517    ;         la x10, new_line
+00000164: EBE50513    ; 
+00000168: 00200893    ;         li x17, 2
+0000016C: 00000073    ;         ecall
+00000170:             ;         
+00000170: EF1FF06F    ;         j main
+00000174:             ;         
+00000174:             ; endprogram      
+00000174: 00500893    ;         li x17, 5
+00000178: 00000073    ;         ecall           ; stop! 
+0000017C:             ; 
+0000017C:             ; subnum
+0000017C:             ;         ;if sub
+0000017C: 402080B3    ;         sub x1, x1, x2
+00000180:             ;         
+00000180: FA00DAE3    ;         bgez x1, printnum
+00000184: 401000B3    ;         neg x1, x1
+00000188: 02D00513    ;         li x10, 45
+0000018C: 00000893    ;         li x17, 0
+00000190: 00000073    ;         ecall
+00000194: FA1FF06F    ;         j printnum
+00000198:             ; 
 
 Symbol Table: Labels
 : op1_msg                           00000004  Label
@@ -180,14 +165,11 @@ Symbol Table: Labels
 : op2                               0000005E  Label
 : res                               0000005F  Label
 : main                              00000060  Label
-: loop                              0000007C  Label
-: printnewline                      000000A8  Label
-: storeop                           000000D4  Label
-: execute                           000000E0  Label
-: subnum                            00000144  Label
-: printresult                       00000148  Label
-: printnum                          00000164  Label
-: greaterthanten                    0000017C  Label
-: printsingle                       00000194  Label
-: endprogram                        000001AC  Label
-: checknegative                     000001B4  Label
+: loop1                             00000074  Label
+: loop2                             000000AC  Label
+: execute                           000000D4  Label
+: printnum                          00000134  Label
+: greaterthanten                    00000144  Label
+: printsingle                       0000015C  Label
+: endprogram                        00000174  Label
+: subnum                            0000017C  Label
