@@ -57,11 +57,6 @@ loop2
 	; print entered value
 	li x17, 0
 	ecall
-	
-	la x10, result_msg
-	li x17, 2
-	ecall  ; print("Result of operation: ")
-	
 	beq x3, x5, subnum	
 	beq x3, x7, addnum
 	bne x3, x6, mainloop
@@ -72,10 +67,15 @@ endprogram
 		
 	
 subnum
+	
 	sub x2, x0, x2 ; a-b = -b + a
 
 addnum
 	add x1, x1, x2
+	
+	la x10, result_msg
+	li x17, 2
+	ecall  ; print("Result of operation: ")
 	
 	mv x10, x1
 	li x17, 3

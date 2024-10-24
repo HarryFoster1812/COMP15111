@@ -82,26 +82,27 @@ KMD
 000000E0:             ;         ; print entered value
 000000E0: 00000893    ;         li x17, 0
 000000E4: 00000073    ;         ecall
-000000E8:             ;         
-000000E8: 00000517    ;         la x10, result_msg
-000000EC: F3950513    ; 
-000000F0: 00200893    ;         li x17, 2
-000000F4: 00000073    ;         ecall  ; print("Result of operation: ")
-000000F8:             ;         
-000000F8: 00518A63    ;         beq x3, x5, subnum      
-000000FC: 00718A63    ;         beq x3, x7, addnum
-00000100: F6619AE3    ;         bne x3, x6, mainloop
-00000104:             ; 
-00000104:             ; endprogram      
-00000104: 00500893    ;         li x17, 5
-00000108: 00000073    ;         ecall           ; stop! 
-0000010C:             ;                 
-0000010C:             ;         
-0000010C:             ; subnum
-0000010C: 40200133    ;         sub x2, x0, x2
-00000110:             ; 
-00000110:             ; addnum
-00000110: 002080B3    ;         add x1, x1, x2
+000000E8: 00518A63    ;         beq x3, x5, subnum      
+000000EC: 00718A63    ;         beq x3, x7, addnum
+000000F0: F86192E3    ;         bne x3, x6, mainloop
+000000F4:             ; 
+000000F4:             ; endprogram      
+000000F4: 00500893    ;         li x17, 5
+000000F8: 00000073    ;         ecall           ; stop! 
+000000FC:             ;                 
+000000FC:             ;         
+000000FC:             ; subnum
+000000FC:             ;         
+000000FC: 40200133    ;         sub x2, x0, x2 ; a-b = -b + a
+00000100:             ; 
+00000100:             ; addnum
+00000100: 002080B3    ;         add x1, x1, x2
+00000104:             ;         
+00000104: 00000517    ;         la x10, result_msg
+00000108: F1D50513    ; 
+0000010C: 00200893    ;         li x17, 2
+00000110: 00000073    ;         ecall  ; print("Result of operation: ")
+00000114:             ;         
 00000114: 00008513    ;         mv x10, x1
 00000118: 00300893    ;         li x17, 3
 0000011C: 00000073    ;         ecall ; print
@@ -129,6 +130,6 @@ Symbol Table: Labels
 : mainloop                          00000074  Label
 : loop1                             00000084  Label
 : loop2                             000000AC  Label
-: endprogram                        00000104  Label
-: subnum                            0000010C  Label
-: addnum                            00000110  Label
+: endprogram                        000000F4  Label
+: subnum                            000000FC  Label
+: addnum                            00000100  Label
