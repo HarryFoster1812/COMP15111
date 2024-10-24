@@ -3,7 +3,7 @@
 op1_msg		defb	"Operand 1:  \0"
 op2_msg		defb	"Operand 2:  \0"
 new_line 	defb	"\n\0"
-result_msg 	defb	"Result of Addition: \0"
+result_msg 	defb	"Result of Operation: \0"
 operator_msg 	defb	"Please select your operation (+,-): \0"
 
 op1	defb 0
