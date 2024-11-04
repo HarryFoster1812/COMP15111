@@ -109,7 +109,9 @@ The body of “stringCopy” should consist of two loops. The first loop copies 
 - Increment a0 and a2
 - if the character is not equal to 0, branch back to the start of the loop to get the next character.
 - If the character is zero, break the loop.
+
 The above loop will also copy the null character '\0', so you need to consider how to discard it before concatenating the second string.
+
 The second loop is similar to the first one, except it starts concatenating characters from second string (addressed by a1) to the end of the existing string (addressed by a2), to make one long string containing both the original strings. (Thus, the first new character must overwrite the “0” byte originally marking the end of the string addressed by a2).
 
 For example, if the string pointed at by a0 was “hello”, so it looked like this in memory:
