@@ -24,9 +24,8 @@ There is a file, “lab3.s”, that contains some starting RISC-V code, one or m
 Instead, you simply need to edit the first line of the file to select the correct piece of test code.
 In all 3 parts, the programs you run will attempt to perform output. To view the output, you will need to open a “Terminal” window (as for lab 2).
 Please note that every time you re-run your program, you need to close and reopen the terminal in order to reset it.
-  
-### Part 1 - Calculating the length of a string
 
+### Part 1 - Calculating the length of a string
 For this part, you need to edit a short method, “stringLength”. Before you do make any changes, assemble, load, reset and run the program “lab3.s”. The following output should appear in the Terminal window:
 
     The length of string >> seven >> is 0
