@@ -133,7 +133,7 @@ was not big enough? What effect might
 that have on the program?
 Buffer overflows are a common source of faults in software; be warned!
 
-## 1.6 Completion, Feedback and Marking Process
+## 1.5 Completion, Feedback and Marking Process
 
 The total mark for Lab 3 is 10 points. As soon as you have completed the exercise, you need to git commit and push to your repository. Make sure that any new files you might create are added to the repository (git add).
 We will mark all submissions within 2 weeks of the deadline. We will provide detailed feedback, which you will receive by email when we mark your submission. We will also discuss this assignment in a live session after the extended submission deadline.
