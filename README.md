@@ -81,6 +81,7 @@ Once you have the address of the last character, follow this sequence to print t
 can be found in the handout of Video 11)
 - Decrement a1 and branch back to the start of the loop to read the next character if a1 is not pointing to the first character.
 - If a1 is pointing to the first character, exit the loop.
+
 Also, think about which addressing mode(s) you can employ for this specific task.
 Edit the program as described above. assemble, load, reset and run your edited code, and you should get the following output in the Terminal window:
 
