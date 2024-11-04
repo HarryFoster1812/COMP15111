@@ -18,6 +18,7 @@ Remember that you must tag your commits in the usual way to show that you comple
 On Blackboard, there are specific instructions on how to use git and Bennett.
 
 ## 1.5 Description
+
 As usual, we will use Bennett to run our programs.
 There is a file, “lab3.s”, that contains some starting RISC-V code, one or more incomplete methods as the starting point for each part described below, and various pieces of test code. You should edit this same file for each part. You should not have to discard any code as you progress from one part to the next.
 Instead, you simply need to edit the first line of the file to select the correct piece of test code.
@@ -25,6 +26,7 @@ In all 3 parts, the programs you run will attempt to perform output. To view the
 Please note that every time you re-run your program, you need to close and reopen the terminal in order to reset it.
   
 ### Part 1 - Calculating the length of a string
+
 For this part, you need to edit a short method, “stringLength”. Before you do make any changes, assemble, load, reset and run the program “lab3.s”. The following output should appear in the Terminal window:
 
     The length of string >> seven >> is 0
@@ -131,6 +133,7 @@ Buffer overflows are a common source of faults in software; be warned!
 
 
 ## 1.6 Completion, Feedback and Marking Process
+
 The total mark for Lab 3 is 10 points. As soon as you have completed the exercise, you need to git commit and push to your repository. Make sure that any new files you might create are added to the repository (git add).
 We will mark all submissions within 2 weeks of the deadline. We will provide detailed feedback, which you will receive by email when we mark your submission. We will also discuss this assignment in a live session after the extended submission deadline.
 File(s) to be committed to Gitlab
