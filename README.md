@@ -5,9 +5,9 @@ To practice using addresses with RISC-V assembly code.
 
 ## 1.2 Learning Outcomes
 On successful completion of this exercise, you will:
-• be familiar with some standard ways of using addresses.
-• be able to operate with arrays of characters.
-• Be able to correctly use register naming according to the RSIC-V ABI
+- be familiar with some standard ways of using addresses.
+- be able to operate with arrays of characters.
+- Be able to correctly use register naming according to the RSIC-V ABI
 
 ## 1.3 Summary
 Each part involves translating a different method into RISC-V instructions. By the time you have finished, you will have a program that can manipulate strings in various ways.
@@ -83,6 +83,7 @@ can be found in the handout of Video 11)
 - If a1 is pointing to the first character, exit the loop.
 Also, think about which addressing mode(s) you can employ for this specific task.
 Edit the program as described above. assemble, load, reset and run your edited code, and you should get the following output in the Terminal window:
+    
     neves
     xis
     evif
@@ -131,7 +132,6 @@ What would happen if the buffer space
 was not big enough? What effect might
 that have on the program?
 Buffer overflows are a common source of faults in software; be warned!
-
 
 ## 1.6 Completion, Feedback and Marking Process
 
