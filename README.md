@@ -110,7 +110,7 @@ The second loop is similar to the first one, except it starts concatenating char
 
 For example, if the string pointed at by a0 was “hello”, so it looked like this in memory:
 
-    ’f ’ ’r’ ’e’ ’d’ \0
+    ’h ’ ’e’ ’l’ ’l’ ’0’ \0
 
 and the string pointed at by a1 was “fred”, so it looked like this in memory:
 
