@@ -26,6 +26,7 @@ In all 3 parts, the programs you run will attempt to perform output. To view the
 Please note that every time you re-run your program, you need to close and reopen the terminal in order to reset it.
 
 ### Part 1 - Calculating the length of a string
+
 For this part, you need to edit a short method, “stringLength”. Before you do make any changes, assemble, load, reset and run the program “lab3.s”. The following output should appear in the Terminal window:
 
     The length of string >> seven >> is 0
@@ -110,6 +111,7 @@ For example, if the string pointed at by a0 was “hello”, so it looked like t
 
     ’h’ ’e’ ’l’ ’l’ ’o’ \0
 
+
 and the string pointed at by a1 was “fred”, so it looked like this in memory:
 
     ’f ’ ’r’ ’e’ ’d’ \0
@@ -122,7 +124,7 @@ Edit the program “lab3.s” to insert RISC-V instructions equivalent to the lo
 
     COMP15111 Fundamentals of Computer Architecture
 
-### Part 4 – Buffer overflow
+### Part 4 - Buffer Overflow
 
 **Task (1 point)**: In parts of this exercise, you used a buffer (imaginatively labelled ‘buffer’) to store strings. You did not know in advance how big the strings would be. It is unlikely that you went to the trouble of determining if they were bigger than the buffer space (perhaps after concatenation).
 What would happen if the buffer space
