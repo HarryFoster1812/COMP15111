@@ -83,11 +83,11 @@ can be found in the handout of Video 11)
 - If a1 is pointing to the first character, exit the loop.
 Also, think about which addressing mode(s) you can employ for this specific task.
 Edit the program as described above. assemble, load, reset and run your edited code, and you should get the following output in the Terminal window:
-    
+
     neves
     xis
     evif
-    ruof
+    rouf
     eerht
     owt
     eno
