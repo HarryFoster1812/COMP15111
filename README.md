@@ -38,10 +38,12 @@ For this part, you need to edit a short method, “stringLength”. Before you d
     The length of string >> Fundamentals of Computer Architecture >> is 0
 
 **Task (2 points)**: The method “stringLength” should calculate the length of the string whose starting memory address is stored in register a0. In this context, register a1 should store the length of the string. By default, a1 contains the integer value zero. Your task is to write a piece of assembly code that calculates the length of the string addressed by a0. Essentially you need to write a loop with the following sequence:
+
 - Get the first character from the string addressed by a0.
 - Increment a1 by 1 if the character is not equal to 0.
 - If the character is not equal to 0, branch back to the start of the loop to get the next character.
 - If the character is zero, break the loop.
+
 You will need to use postincrement addressing to get each character from the string in turn.
 Edit the program as described above. assemble, load, reset and run your edited code, and you should get the
 following output in the Terminal window:
