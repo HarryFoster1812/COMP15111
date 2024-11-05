@@ -43,8 +43,15 @@ stringLength
     and  a1, a1, zero   ;len = 0
                         ;while string[len:]:
                         ;   len =len+ 1
+   movePointer
+   add a0, a0, a1
+   lb t0, [a0]
+   beq t0, zero, exitloop
+   addi a1, a1, 1
+   j movePointer
   
-
+  
+exitloop
 ;a1 must contain the length of the string
 ; don't remove these lines
     mv   a0, a1
