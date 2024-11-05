@@ -1,7 +1,7 @@
 KMD
 00000000:             ; ;by default it will branch to label 'part1'
 00000000:             ; 
-00000000: 14C0006F    ;         j part1 ; part1 or part2 or part3
+00000000: 3F00006F    ;         j part3 ; part1 or part2 or part3
 00000004:             ; 
 00000004:             ; 
 00000004:             ; 
@@ -90,11 +90,11 @@ KMD
 000000EC: 0005F5B3    ;     and  a1, a1, zero   ;len = 0
 000000F0:             ;                         ;while string[len:]:
 000000F0:             ;                         ;   len =len+ 1
-000000F0:             ;    movePointer
-000000F0: 00B50533    ;    add a0, a0, a1
-000000F4: 00050283    ;    lb t0, [a0]
-000000F8: 00028663    ;    beq t0, zero, exitloop
-000000FC: 00158593    ;    addi a1, a1, 1
+000000F0:             ; movePointer
+000000F0: 00050283    ;    lb t0, [a0]
+000000F4: 00028863    ;    beq t0, zero, exitloop
+000000F8: 00158593    ;    addi a1, a1, 1
+000000FC: 00150513    ;    addi a0, a0, 1
 00000100: FF1FF06F    ;    j movePointer
 00000104:             ;   
 00000104:             ;   
@@ -115,219 +115,249 @@ KMD
 00000120:             ; printstringReverse
 00000120:             ; 
 00000120:             ; ;Your code goes here replacing the 3 lines given below
-00000120: 00058513    ;     mv   a0, a1 
-00000124: 00200893    ;     li   a7, 2
-00000128: 00000073    ;     ecall
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; 
-0000012C:             ; ; don't remove these lines
-0000012C: 00A00513    ;     li   a0, 10      ; given - end of line
-00000130: 00000893    ;     li   a7, 0       ; given - output
-00000134: 00000073    ;     ecall            ; given - output
-00000138: 00008067    ;     jr   ra          ; given
+00000120: 00050393    ; mv t2, a0 ; end pointer
+00000124: 00050313    ; mv t1, a0 ; front pointer
+00000128: FFF30313    ; subi t1, t1, 1 ; we want one before the front pointer
+0000012C:             ; moveToEnd
+0000012C: 00038283    ;     lb t0, [t2]
+00000130: 00028663    ;     beq t0, zero, end
+00000134: 00138393    ;     addi t2, t2, 1
+00000138: FF5FF06F    ;     j moveToEnd
+0000013C:             ;  
+0000013C:             ; end
 0000013C:             ; 
-0000013C:             ; ;************************** part 3 ***************************
-0000013C:             ; stringCopy
-0000013C:             ; 
-0000013C:             ; ;Your code goes here replacing the 3 lines given below
-0000013C: 00058513    ;     mv   a0, a1 
-00000140: 00200893    ;     li   a7, 2
-00000144: 00000073    ;     ecall
-00000148:             ; 
-00000148:             ; 
-00000148:             ; 
-00000148:             ; ; don't remove this line
-00000148: 00008067    ;     jr   ra          ; given
-0000014C:             ; 
-0000014C:             ; 
-0000014C:             ; 
-0000014C:             ; ;*********************** the various parts ********************
-0000014C:             ; part1
-0000014C: 00000517    ;     la   a0, strsize   
-00000150: F2450513    ; 
-00000154: 00200893    ;     li   a7, 2  
-00000158: 00000073    ;     ecall
-0000015C: 00000517    ;     la   a0, s1
-00000160: F2E50513    ; 
-00000164: 00000073    ;     ecall                  
-00000168: 00000517    ;     la   a0, is   
-0000016C: F0050513    ; 
-00000170: 00000073    ;     ecall
-00000174: 00000517    ;     la   a0, s1
-00000178: F1650513    ; 
-0000017C: F71FF0EF    ;     jal stringLength
-00000180:             ;   
+0000013C: 00000893    ; li   a7, 0; type of print
+00000140:             ; 
+00000140:             ; moveToFront
+00000140: 00038283    ;     lb t0, [t2]
+00000144: FFF38393    ;     subi t2, t2, 1
+00000148: 00028513    ;     mv  a0, t0  ; input
+0000014C: 00000073    ;     ecall
+00000150: FE6398E3    ;     bne t2, t1, moveToFront
+00000154:             ; 
+00000154:             ; 
+00000154:             ; 
+00000154:             ; ; don't remove these lines
+00000154: 00A00513    ;     li   a0, 10      ; given - end of line
+00000158: 00000893    ;     li   a7, 0       ; given - output
+0000015C: 00000073    ;     ecall            ; given - output
+00000160: 00008067    ;     jr   ra          ; given
+00000164:             ; 
+00000164:             ; ;************************** part 3 ***************************
+00000164:             ; stringCopy
+00000164:             ; 
+00000164:             ; ;Your code goes here replacing the 3 lines given below
+00000164:             ;     
+00000164:             ;     ; a0 - string 1
+00000164:             ;     ; a1 - string 2
+00000164:             ;     ; a2 - buffer
+00000164: 00000313    ;     li t1, 0 
+00000168:             ; moveStringPointer
+00000168: 00050283    ;     lb t0, [a0] ; get char in the address
+0000016C: 00028A63    ;     beq t0, zero, moveSecondStringPointer
+00000170: 00560023    ;     sb t0, [a2]
+00000174: 00150513    ;     addi a0, a0, 1
+00000178: 00160613    ;     addi a2, a2, 1
+0000017C: FEDFF06F    ;     j moveStringPointer
 00000180:             ; 
-00000180: 00000517    ;     la   a0, strsize   
-00000184: EF050513    ; 
-00000188: 00200893    ;     li   a7, 2  
-0000018C: 00000073    ;     ecall
-00000190: 00000517    ;     la   a0, s2
-00000194: F0050513    ; 
-00000198: 00000073    ;     ecall                  
-0000019C: 00000517    ;     la   a0, is   
-000001A0: ECC50513    ; 
-000001A4: 00000073    ;     ecall
-000001A8: 00000517    ;     la   a0, s2
-000001AC: EE850513    ; 
-000001B0: F3DFF0EF    ;     jal stringLength
-000001B4:             ;   
-000001B4: 00000517    ;     la   a0, strsize   
-000001B8: EBC50513    ; 
-000001BC: 00200893    ;     li   a7, 2  
-000001C0: 00000073    ;     ecall
-000001C4: 00000517    ;     la   a0, s3
-000001C8: ED050513    ; 
-000001CC: 00000073    ;     ecall                  
-000001D0: 00000517    ;     la   a0, is   
-000001D4: E9850513    ; 
-000001D8: 00000073    ;     ecall
-000001DC: 00000517    ;     la   a0, s3
-000001E0: EB850513    ; 
-000001E4: F09FF0EF    ;     jal stringLength
-000001E8:             ;   
-000001E8: 00000517    ;     la   a0, strsize   
-000001EC: E8850513    ; 
-000001F0: 00200893    ;     li   a7, 2  
-000001F4: 00000073    ;     ecall
-000001F8: 00000517    ;     la   a0, s4
-000001FC: EA150513    ; 
-00000200: 00000073    ;     ecall                  
-00000204: 00000517    ;     la   a0, is   
-00000208: E6450513    ; 
-0000020C: 00000073    ;     ecall
-00000210: 00000517    ;     la   a0, s4
-00000214: E8950513    ; 
-00000218: ED5FF0EF    ;     jal stringLength
-0000021C:             ;   
-0000021C: 00000517    ;     la   a0, strsize   
-00000220: E5450513    ; 
-00000224: 00200893    ;     li   a7, 2  
-00000228: 00000073    ;     ecall
-0000022C: 00000517    ;     la   a0, s5
-00000230: E7250513    ; 
-00000234: 00000073    ;     ecall                  
-00000238: 00000517    ;     la   a0, is   
-0000023C: E3050513    ; 
-00000240: 00000073    ;     ecall
-00000244: 00000517    ;     la   a0, s5
-00000248: E5A50513    ; 
-0000024C: EA1FF0EF    ;     jal stringLength
-00000250:             ; 
-00000250: 00000517    ;     la   a0, strsize   
-00000254: E2050513    ; 
-00000258: 00200893    ;     li   a7, 2  
-0000025C: 00000073    ;     ecall
-00000260: 00000517    ;     la   a0, s6
-00000264: E4450513    ; 
-00000268: 00000073    ;     ecall                  
-0000026C: 00000517    ;     la   a0, is   
-00000270: DFC50513    ; 
-00000274: 00000073    ;     ecall
-00000278: 00000517    ;     la   a0, s6
-0000027C: E2C50513    ; 
-00000280: E6DFF0EF    ;     jal stringLength
-00000284:             ; 
-00000284: 00000517    ;     la   a0, strsize   
-00000288: DEC50513    ; 
-0000028C: 00200893    ;     li   a7, 2  
-00000290: 00000073    ;     ecall
-00000294: 00000517    ;     la   a0, s7
-00000298: E1450513    ; 
-0000029C: 00000073    ;     ecall                  
-000002A0: 00000517    ;     la   a0, is   
-000002A4: DC850513    ; 
-000002A8: 00000073    ;     ecall
-000002AC: 00000517    ;     la   a0, s7
-000002B0: DFC50513    ; 
-000002B4: E39FF0EF    ;     jal stringLength
-000002B8:             ; 
-000002B8: 00000517    ;     la   a0, strsize   
-000002BC: DB850513    ; 
-000002C0: 00200893    ;     li   a7, 2  
-000002C4: 00000073    ;     ecall
-000002C8: 00000517    ;     la   a0, s8
-000002CC: DE450513    ; 
-000002D0: 00000073    ;     ecall                  
-000002D4: 00000517    ;     la   a0, is   
-000002D8: D9450513    ; 
-000002DC: 00000073    ;     ecall
-000002E0: 00000517    ;     la   a0, s8
-000002E4: DCC50513    ; 
-000002E8: E05FF0EF    ;     jal stringLength
-000002EC:             ; 
-000002EC: 00000517    ;     la   a0, strsize   
-000002F0: D8450513    ; 
-000002F4: 00200893    ;     li   a7, 2  
-000002F8: 00000073    ;     ecall
-000002FC: 00000517    ;     la   a0, s9
-00000300: DBB50513    ; 
-00000304: 00000073    ;     ecall                  
-00000308: 00000517    ;     la   a0, is   
-0000030C: D6050513    ; 
-00000310: 00000073    ;     ecall
-00000314: 00000517    ;     la   a0, s9
-00000318: DA350513    ; 
-0000031C: DD1FF0EF    ;     jal  stringLength
-00000320:             ;     
-00000320: 00500893    ;     li   a7, 5
-00000324: 00000073    ;     ecall
-00000328:             ; 
-00000328:             ; 
-00000328:             ; part2   
-00000328: 00000517    ;     la   a0, s1
-0000032C: D6250513    ; 
-00000330: DF1FF0EF    ;     jal  printstringReverse
-00000334: 00000517    ;     la   a0, s2
-00000338: D5C50513    ; 
-0000033C: DE5FF0EF    ;     jal  printstringReverse
-00000340: 00000517    ;     la   a0, s3
-00000344: D5450513    ; 
-00000348: DD9FF0EF    ;     jal  printstringReverse
-0000034C: 00000517    ;     la   a0, s4
-00000350: D4D50513    ; 
-00000354: DCDFF0EF    ;     jal  printstringReverse
-00000358: 00000517    ;     la   a0, s5
-0000035C: D4650513    ; 
-00000360: DC1FF0EF    ;     jal  printstringReverse
-00000364: 00000517    ;     la   a0, s6
-00000368: D4050513    ; 
-0000036C: DB5FF0EF    ;     jal  printstringReverse
-00000370: 00000517    ;     la   a0, s7
-00000374: D3850513    ; 
-00000378: DA9FF0EF    ;     jal  printstringReverse
-0000037C: 00000517    ;     la   a0, s8
-00000380: D3050513    ; 
+00000180:             ; 
+00000180:             ; moveSecondStringPointer
+00000180: 00058283    ;     lb t0, [a1] ; get char in the address
+00000184: 00028A63    ;     beq t0, zero, endConcat
+00000188: 00560023    ;     sb t0, [a2]
+0000018C: 00158593    ;     addi a1, a1, 1
+00000190: 00160613    ;     addi a2, a2, 1
+00000194: FEDFF06F    ;     j moveSecondStringPointer
+00000198:             ; 
+00000198:             ; endConcat
+00000198: 00560023    ;     sb t0, [a2]
+0000019C:             ; ; don't remove this line
+0000019C: 00008067    ;     jr   ra          ; given
+000001A0:             ; 
+000001A0:             ; 
+000001A0:             ; 
+000001A0:             ; ;*********************** the various parts ********************
+000001A0:             ; part1
+000001A0: 00000517    ;     la   a0, strsize   
+000001A4: ED050513    ; 
+000001A8: 00200893    ;     li   a7, 2  
+000001AC: 00000073    ;     ecall
+000001B0: 00000517    ;     la   a0, s1
+000001B4: EDA50513    ; 
+000001B8: 00000073    ;     ecall                  
+000001BC: 00000517    ;     la   a0, is   
+000001C0: EAC50513    ; 
+000001C4: 00000073    ;     ecall
+000001C8: 00000517    ;     la   a0, s1
+000001CC: EC250513    ; 
+000001D0: F1DFF0EF    ;     jal stringLength
+000001D4:             ;   
+000001D4:             ; 
+000001D4: 00000517    ;     la   a0, strsize   
+000001D8: E9C50513    ; 
+000001DC: 00200893    ;     li   a7, 2  
+000001E0: 00000073    ;     ecall
+000001E4: 00000517    ;     la   a0, s2
+000001E8: EAC50513    ; 
+000001EC: 00000073    ;     ecall                  
+000001F0: 00000517    ;     la   a0, is   
+000001F4: E7850513    ; 
+000001F8: 00000073    ;     ecall
+000001FC: 00000517    ;     la   a0, s2
+00000200: E9450513    ; 
+00000204: EE9FF0EF    ;     jal stringLength
+00000208:             ;   
+00000208: 00000517    ;     la   a0, strsize   
+0000020C: E6850513    ; 
+00000210: 00200893    ;     li   a7, 2  
+00000214: 00000073    ;     ecall
+00000218: 00000517    ;     la   a0, s3
+0000021C: E7C50513    ; 
+00000220: 00000073    ;     ecall                  
+00000224: 00000517    ;     la   a0, is   
+00000228: E4450513    ; 
+0000022C: 00000073    ;     ecall
+00000230: 00000517    ;     la   a0, s3
+00000234: E6450513    ; 
+00000238: EB5FF0EF    ;     jal stringLength
+0000023C:             ;   
+0000023C: 00000517    ;     la   a0, strsize   
+00000240: E3450513    ; 
+00000244: 00200893    ;     li   a7, 2  
+00000248: 00000073    ;     ecall
+0000024C: 00000517    ;     la   a0, s4
+00000250: E4D50513    ; 
+00000254: 00000073    ;     ecall                  
+00000258: 00000517    ;     la   a0, is   
+0000025C: E1050513    ; 
+00000260: 00000073    ;     ecall
+00000264: 00000517    ;     la   a0, s4
+00000268: E3550513    ; 
+0000026C: E81FF0EF    ;     jal stringLength
+00000270:             ;   
+00000270: 00000517    ;     la   a0, strsize   
+00000274: E0050513    ; 
+00000278: 00200893    ;     li   a7, 2  
+0000027C: 00000073    ;     ecall
+00000280: 00000517    ;     la   a0, s5
+00000284: E1E50513    ; 
+00000288: 00000073    ;     ecall                  
+0000028C: 00000517    ;     la   a0, is   
+00000290: DDC50513    ; 
+00000294: 00000073    ;     ecall
+00000298: 00000517    ;     la   a0, s5
+0000029C: E0650513    ; 
+000002A0: E4DFF0EF    ;     jal stringLength
+000002A4:             ; 
+000002A4: 00000517    ;     la   a0, strsize   
+000002A8: DCC50513    ; 
+000002AC: 00200893    ;     li   a7, 2  
+000002B0: 00000073    ;     ecall
+000002B4: 00000517    ;     la   a0, s6
+000002B8: DF050513    ; 
+000002BC: 00000073    ;     ecall                  
+000002C0: 00000517    ;     la   a0, is   
+000002C4: DA850513    ; 
+000002C8: 00000073    ;     ecall
+000002CC: 00000517    ;     la   a0, s6
+000002D0: DD850513    ; 
+000002D4: E19FF0EF    ;     jal stringLength
+000002D8:             ; 
+000002D8: 00000517    ;     la   a0, strsize   
+000002DC: D9850513    ; 
+000002E0: 00200893    ;     li   a7, 2  
+000002E4: 00000073    ;     ecall
+000002E8: 00000517    ;     la   a0, s7
+000002EC: DC050513    ; 
+000002F0: 00000073    ;     ecall                  
+000002F4: 00000517    ;     la   a0, is   
+000002F8: D7450513    ; 
+000002FC: 00000073    ;     ecall
+00000300: 00000517    ;     la   a0, s7
+00000304: DA850513    ; 
+00000308: DE5FF0EF    ;     jal stringLength
+0000030C:             ; 
+0000030C: 00000517    ;     la   a0, strsize   
+00000310: D6450513    ; 
+00000314: 00200893    ;     li   a7, 2  
+00000318: 00000073    ;     ecall
+0000031C: 00000517    ;     la   a0, s8
+00000320: D9050513    ; 
+00000324: 00000073    ;     ecall                  
+00000328: 00000517    ;     la   a0, is   
+0000032C: D4050513    ; 
+00000330: 00000073    ;     ecall
+00000334: 00000517    ;     la   a0, s8
+00000338: D7850513    ; 
+0000033C: DB1FF0EF    ;     jal stringLength
+00000340:             ; 
+00000340: 00000517    ;     la   a0, strsize   
+00000344: D3050513    ; 
+00000348: 00200893    ;     li   a7, 2  
+0000034C: 00000073    ;     ecall
+00000350: 00000517    ;     la   a0, s9
+00000354: D6750513    ; 
+00000358: 00000073    ;     ecall                  
+0000035C: 00000517    ;     la   a0, is   
+00000360: D0C50513    ; 
+00000364: 00000073    ;     ecall
+00000368: 00000517    ;     la   a0, s9
+0000036C: D4F50513    ; 
+00000370: D7DFF0EF    ;     jal  stringLength
+00000374:             ;     
+00000374: 00500893    ;     li   a7, 5
+00000378: 00000073    ;     ecall
+0000037C:             ; 
+0000037C:             ; 
+0000037C:             ; part2   
+0000037C: 00000517    ;     la   a0, s1
+00000380: D0E50513    ; 
 00000384: D9DFF0EF    ;     jal  printstringReverse
-00000388: 00000517    ;     la   a0, s9
-0000038C: D2F50513    ; 
+00000388: 00000517    ;     la   a0, s2
+0000038C: D0850513    ; 
 00000390: D91FF0EF    ;     jal  printstringReverse
-00000394: 00500893    ;     li   a7, 5
-00000398: 00000073    ;     ecall
-0000039C:             ; 
-0000039C:             ; 
-0000039C:             ; part3   
-0000039C: 00000517    ;     la   a0, s8
-000003A0: D1050513    ; 
-000003A4: 00000597    ;     la   a1, s9
-000003A8: D1358593    ; 
-000003AC: 00000617    ;     la   a2, buffer
-000003B0: C5860613    ; 
-000003B4: D89FF0EF    ;     jal  stringCopy
-000003B8: 00000517    ;     la   a0, buffer
-000003BC: C4C50513    ; 
-000003C0: D21FF0EF    ;     jal  printstring
-000003C4:             ;   
-000003C4: 00500893    ;     li   a7, 5
-000003C8: 00000073    ;     ecall
-000003CC:             ; 
-000003CC:             ; 
-000003CC:             ; 
+00000394: 00000517    ;     la   a0, s3
+00000398: D0050513    ; 
+0000039C: D85FF0EF    ;     jal  printstringReverse
+000003A0: 00000517    ;     la   a0, s4
+000003A4: CF950513    ; 
+000003A8: D79FF0EF    ;     jal  printstringReverse
+000003AC: 00000517    ;     la   a0, s5
+000003B0: CF250513    ; 
+000003B4: D6DFF0EF    ;     jal  printstringReverse
+000003B8: 00000517    ;     la   a0, s6
+000003BC: CEC50513    ; 
+000003C0: D61FF0EF    ;     jal  printstringReverse
+000003C4: 00000517    ;     la   a0, s7
+000003C8: CE450513    ; 
+000003CC: D55FF0EF    ;     jal  printstringReverse
+000003D0: 00000517    ;     la   a0, s8
+000003D4: CDC50513    ; 
+000003D8: D49FF0EF    ;     jal  printstringReverse
+000003DC: 00000517    ;     la   a0, s9
+000003E0: CDB50513    ; 
+000003E4: D3DFF0EF    ;     jal  printstringReverse
+000003E8: 00500893    ;     li   a7, 5
+000003EC: 00000073    ;     ecall
+000003F0:             ; 
+000003F0:             ; 
+000003F0:             ; part3   
+000003F0: 00000517    ;     la   a0, s8
+000003F4: CBC50513    ; 
+000003F8: 00000597    ;     la   a1, s9
+000003FC: CBF58593    ; 
+00000400: 00000617    ;     la   a2, buffer
+00000404: C0460613    ; 
+00000408: D5DFF0EF    ;     jal  stringCopy
+0000040C: 00000517    ;     la   a0, buffer
+00000410: BF850513    ; 
+00000414: CCDFF0EF    ;     jal  printstring
+00000418:             ;   
+00000418: 00500893    ;     li   a7, 5
+0000041C: 00000073    ;     ecall
+00000420:             ; 
+00000420:             ; 
+00000420:             ; 
 
 Symbol Table: Labels
 : buffer                            00000004  Label
@@ -347,7 +377,13 @@ Symbol Table: Labels
 : movePointer                       000000F0  Label
 : exitloop                          00000104  Label
 : printstringReverse                00000120  Label
-: stringCopy                        0000013C  Label
-: part1                             0000014C  Label
-: part2                             00000328  Label
-: part3                             0000039C  Label
+: moveToEnd                         0000012C  Label
+: end                               0000013C  Label
+: moveToFront                       00000140  Label
+: stringCopy                        00000164  Label
+: moveStringPointer                 00000168  Label
+: moveSecondStringPointer           00000180  Label
+: endConcat                         00000198  Label
+: part1                             000001A0  Label
+: part2                             0000037C  Label
+: part3                             000003F0  Label

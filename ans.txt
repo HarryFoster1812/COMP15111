@@ -1,0 +1,1 @@
+If the buffer is not large enough for the data to be stored a buffer overflow occurs. This is where the data overwrites the ajacent memory locations which could cause many problems since the program could perform undesired instructions.  

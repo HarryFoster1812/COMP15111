@@ -1,6 +1,6 @@
 ;by default it will branch to label 'part1'
 
-	j part1 ; part1 or part2 or part3
+	j part3 ; part1 or part2 or part3
 
 
 
@@ -43,11 +43,11 @@ stringLength
     and  a1, a1, zero   ;len = 0
                         ;while string[len:]:
                         ;   len =len+ 1
-   movePointer
-   add a0, a0, a1
+movePointer
    lb t0, [a0]
    beq t0, zero, exitloop
    addi a1, a1, 1
+   addi a0, a0, 1
    j movePointer
   
   
@@ -68,13 +68,25 @@ exitloop
 printstringReverse
 
 ;Your code goes here replacing the 3 lines given below
-    mv   a0, a1	
-    li   a7, 2
+mv t2, a0 ; end pointer
+mv t1, a0 ; front pointer
+subi t1, t1, 1 ; we want one before the front pointer
+moveToEnd
+    lb t0, [t2]
+    beq t0, zero, end
+    addi t2, t2, 1
+    j moveToEnd
+ 
+end
+
+li   a7, 0; type of print
+
+moveToFront
+    lb t0, [t2]
+    subi t2, t2, 1
+    mv  a0, t0	; input
     ecall
-
-
-
-
+    bne t2, t1, moveToFront
 
 
 
@@ -88,12 +100,30 @@ printstringReverse
 stringCopy
 
 ;Your code goes here replacing the 3 lines given below
-    mv   a0, a1	
-    li   a7, 2
-    ecall
+    
+    ; a0 - string 1
+    ; a1 - string 2
+    ; a2 - buffer
+    li t1, 0 
+moveStringPointer
+    lb t0, [a0] ; get char in the address
+    beq t0, zero, moveSecondStringPointer
+    sb t0, [a2]
+    addi a0, a0, 1
+    addi a2, a2, 1
+    j moveStringPointer
 
 
+moveSecondStringPointer
+    lb t0, [a1] ; get char in the address
+    beq t0, zero, endConcat
+    sb t0, [a2]
+    addi a1, a1, 1
+    addi a2, a2, 1
+    j moveSecondStringPointer
 
+endConcat
+    sb t0, [a2]
 ; don't remove this line
     jr   ra          ; given
 
