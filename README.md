@@ -82,14 +82,14 @@ There is another file, “AgeHistoryPart4.py”, that contains the Python progra
 **Task B (2points):**: Remember you can optimise comparisons by taking advantage of some characteristics of Boolean operators. 
 E.g. in (a<b or c<d), if a is less than b, you already know the answer is true (if you forgot, you can have a look at lecture 25 again…) and there is no need to compare c and d.
 Similarly, for (a<b and c<d) if a is not less than b, you already know the answer is false and you should not compare c and d.
-For this task you must implement the enhanced checks from Part 4 Task A, using no more than 11 instructions combined.
+For this task you must implement the enhanced checks from Part 4 Task A, using no more than **11** instructions combined.
 This number is the total number of instructions for both the checks (e.g. if you implement the first check with 5 instructions and the second with 6, the total number of instructions will be 11).
 Note that this number includes any instruction you use, therefore lw, sw and any arithmetic instruction are included in the count too.
 
 The existing instructions
 
-loop1     lw a0, pYear
-lw a0, pMonth
+- loop1     lw a0, pYear
+- lw a0, pMonth
 
 are not included in the count.
 
