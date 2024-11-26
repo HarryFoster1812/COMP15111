@@ -16,6 +16,13 @@ cLF		equ	10		; Line-feed character
 stack		defs	100		; this chunk of memory is for the stack
 stack_base					; This label is 'just after' the stack space
 
+wasborn		defb	"This person was born on ", 0
+was			defb	"This person was ", 0
+on			defb	" on ", 0
+is			defb	"This person is ", 0
+today		defb	" today!", 0
+willbe		defb	"This person will be ",0
+
 
 pDay		defw	13		;  pDay = 23    //or whatever is today's date
 pMonth		defw	11		;  pMonth = 11  //or whatever is this month
@@ -50,6 +57,7 @@ lw t1, [sp]
 ; t0 = bDay
 addi sp, sp, 4
 lw t0, [sp]
+sw ra, [sp]
 
 ;   year = bYear + 1
 		addi	s0, t2, 1
@@ -62,22 +70,19 @@ lw t0, [sp]
 		ecall
 		
         ; save the return point
-        sw ra, [sp]
-        subi sp, sp, 4
 
         ; push parameters
+        subi sp, sp, 4
         sw t2, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t1, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t0, [sp]
 
         jal printTheDate
 
-        lw ra, [sp]
-        addi sp, sp, 4
 
 		li	a0, cLF
 		li	a7, print_char
@@ -104,23 +109,19 @@ loop1		lw	a0, pYear
 		li	a7, print_str
 		ecall
 
-        ; save the return point
-        sw ra, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         ; push parameters
         sw s0, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t1, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t0, [sp]
 
         jal printTheDate
 
-        lw ra, [sp]
-        addi sp, sp, 4
 		
 		li	a0, cLF
 		li	a7, print_char
@@ -171,23 +172,18 @@ else1
 		li	a7, print_str
 		ecall
 		
-        ; save the return point
-        sw ra, [sp]
-        subi sp, sp, 4
 
         ; push parameters
+        subi sp, sp, 4
         sw s0, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t1, [sp]
-        subi sp, sp, 4
 
+        subi sp, sp, 4
         sw t0, [sp]
 
         jal printTheDate
-
-        lw ra, [sp]
-        addi sp, sp, 4
 
 		li	a0, cLF
 		li	a7, print_char
@@ -195,7 +191,8 @@ else1
 
 ; }// end of printAgeHistory
 end2	
-
+		lw ra, [sp]
+		addi sp, sp, 4
 		jr	ra
 
 another		defb	"Another person",10,0
@@ -208,27 +205,27 @@ printTheDate
 ; year
 
     lw	a0, [sp]
-    addi sp, sp , 4
     li	a7, print_no
     ecall
+    addi sp, sp , 4
 
     li	a0, '/'
     li	a7, print_char
     ecall
 
     lw	a0, [sp]
-    addi sp, sp , 4
     li	a7, print_no
     ecall
+    addi sp, sp , 4
 
     li	a0, '/'
     li	a7, print_char
     ecall
 
     lw	a0, [sp]
-    addi sp, sp , 4
     li	a7, print_no
     ecall
+    addi sp, sp , 4
     
 
     jr	ra
@@ -244,11 +241,14 @@ main
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
 
+subi sp, sp, 4
 lw t0, pDay
 sw t0, [sp]
+
 subi sp, sp, 4
 lw t1, pMonth
 sw t1, [sp]
+
 subi sp, sp, 4
 lw t2, sYear
 sw t2, [sp]
@@ -271,9 +271,12 @@ li t0, 23
 li t1, 11
 lw t2, sYear
 
+subi sp, sp, 4
 sw t0, [sp]
+
 subi sp, sp, 4
 sw t1, [sp]
+
 subi sp, sp, 4
 sw t2, [sp]
 
@@ -284,10 +287,3 @@ sw t2, [sp]
 ; // end of main
 
         align
-
-wasborn		defb	"This person was born on ", 0
-was			defb	"This person was ", 0
-on			defb	" on ", 0
-is			defb	"This person is ", 0
-today		defb	" today!", 0
-willbe		defb	"This person will be ",0
