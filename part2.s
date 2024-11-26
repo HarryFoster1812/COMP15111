@@ -48,9 +48,14 @@ printAgeHistory
 
 ;for part 1
 ; move the arguments according to the following
-; t0 = bDay
-; t1 = bMonth
 ; t2 = bYear
+lw t2, [sp]
+; t1 = bMonth
+addi sp, sp, 4
+lw t1, [sp]
+; t0 = bDay
+addi sp, sp, 4
+lw t0, [sp]
 
 ;   year = bYear + 1
 		addi	s0, t2, 1
@@ -204,9 +209,14 @@ main
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
 
-lb t0, pDay
-lb t1, pMonth
+lw t0, pDay
+sw t0, [sp]
+subi sp, sp, 4
+lw t1, pMonth
+sw t1, [sp]
+subi sp, sp, 4
 lw t2, sYear
+sw t2, [sp]
 
 		jal	printAgeHistory
 
@@ -225,6 +235,12 @@ lw t2, sYear
 li t0, 23
 li t1, 11
 lw t2, sYear
+
+sw t0, [sp]
+subi sp, sp, 4
+sw t1, [sp]
+subi sp, sp, 4
+sw t2, [sp]
 
 		jal	printAgeHistory
 

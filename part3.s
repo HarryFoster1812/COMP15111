@@ -7,6 +7,8 @@ print_no	equ	3
 
 cLF		equ	10		; Line-feed character
 
+		align
+
 
 		la	sp, stack_base	; set sp pointing to the end of our stack
 		j	main
@@ -14,14 +16,6 @@ cLF		equ	10		; Line-feed character
 stack		defs	100		; this chunk of memory is for the stack
 stack_base					; This label is 'just after' the stack space
 
-
-wasborn		defb	"This person was born on ",0
-was			defb	"This person was ",0
-on			defb	" on ",0
-is			defb	"This person is ",0
-today		defb	" today!",0
-willbe		defb	"This person will be ",0
-		align
 
 pDay		defw	13		;  pDay = 23    //or whatever is today's date
 pMonth		defw	11		;  pMonth = 11  //or whatever is this month
@@ -48,9 +42,14 @@ printAgeHistory
 
 ;for part 1
 ; move the arguments according to the following
-; t0 = bDay
-; t1 = bMonth
 ; t2 = bYear
+lw t2, [sp]
+; t1 = bMonth
+addi sp, sp, 4
+lw t1, [sp]
+; t0 = bDay
+addi sp, sp, 4
+lw t0, [sp]
 
 ;   year = bYear + 1
 		addi	s0, t2, 1
@@ -61,21 +60,25 @@ printAgeHistory
 		la	a0, wasborn
 		li	a7, print_str
 		ecall
-		mv	a0, t0
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li      a7, print_char
-		ecall
-		mv	a0, t1
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li	a7, print_char
-		ecall
-		mv	a0, t2
-		li	a7, print_no
-		ecall
+		
+        ; save the return point
+        sw ra, [sp]
+        subi sp, sp, 4
+
+        ; push parameters
+        sw t2, [sp]
+        subi sp, sp, 4
+
+        sw t1, [sp]
+        subi sp, sp, 4
+
+        sw t0, [sp]
+
+        jal printTheDate
+
+        lw ra, [sp]
+        addi sp, sp, 4
+
 		li	a0, cLF
 		li	a7, print_char
 		ecall
@@ -100,21 +103,25 @@ loop1		lw	a0, pYear
 		la	a0, on
 		li	a7, print_str
 		ecall
-		mv	a0, t0
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li	a7, print_char
-		ecall
-		mv	a0, t1
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li	a7, print_char
-		ecall
-		mv	a0, s0
-		li	a7, print_no
-		ecall
+
+        ; save the return point
+        sw ra, [sp]
+        subi sp, sp, 4
+
+        ; push parameters
+        sw s0, [sp]
+        subi sp, sp, 4
+
+        sw t1, [sp]
+        subi sp, sp, 4
+
+        sw t0, [sp]
+
+        jal printTheDate
+
+        lw ra, [sp]
+        addi sp, sp, 4
+		
 		li	a0, cLF
 		li	a7, print_char
 		ecall
@@ -163,21 +170,25 @@ else1
 		la	a0, on
 		li	a7, print_str
 		ecall
-		mv	a0, t0
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li	a7, print_char
-		ecall
-		mv	a0, t1
-		li	a7, print_no
-		ecall
-		li	a0, '/'
-		li	a7, print_char
-		ecall
-		mv	a0, s0
-		li	a7, print_no
-		ecall
+		
+        ; save the return point
+        sw ra, [sp]
+        subi sp, sp, 4
+
+        ; push parameters
+        sw s0, [sp]
+        subi sp, sp, 4
+
+        sw t1, [sp]
+        subi sp, sp, 4
+
+        sw t0, [sp]
+
+        jal printTheDate
+
+        lw ra, [sp]
+        addi sp, sp, 4
+
 		li	a0, cLF
 		li	a7, print_char
 		ecall
@@ -188,12 +199,41 @@ end2
 		jr	ra
 
 another		defb	"Another person",10,0
-		align
 
 
+printTheDate
+; parameters that are passed are
+; day
+; month
+; year
 
+    lw	a0, [sp]
+    addi sp, sp , 4
+    li	a7, print_no
+    ecall
 
+    li	a0, '/'
+    li	a7, print_char
+    ecall
 
+    lw	a0, [sp]
+    addi sp, sp , 4
+    li	a7, print_no
+    ecall
+
+    li	a0, '/'
+    li	a7, print_char
+    ecall
+
+    lw	a0, [sp]
+    addi sp, sp , 4
+    li	a7, print_no
+    ecall
+    
+
+    jr	ra
+
+align
 
 ; def main():
 main
@@ -204,9 +244,14 @@ main
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
 
-lb t0, pDay
-lb t1, pMonth
+lw t0, pDay
+sw t0, [sp]
+subi sp, sp, 4
+lw t1, pMonth
+sw t1, [sp]
+subi sp, sp, 4
 lw t2, sYear
+sw t2, [sp]
 
 		jal	printAgeHistory
 
@@ -226,9 +271,23 @@ li t0, 23
 li t1, 11
 lw t2, sYear
 
+sw t0, [sp]
+subi sp, sp, 4
+sw t1, [sp]
+subi sp, sp, 4
+sw t2, [sp]
+
 		jal	printAgeHistory
 
 		li	a7, stop
 		ecall
 ; // end of main
 
+        align
+
+wasborn		defb	"This person was born on ", 0
+was			defb	"This person was ", 0
+on			defb	" on ", 0
+is			defb	"This person is ", 0
+today		defb	" today!", 0
+willbe		defb	"This person will be ",0
