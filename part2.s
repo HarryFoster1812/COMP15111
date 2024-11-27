@@ -48,19 +48,15 @@ printAgeHistory
 
 ;for part 1
 ; move the arguments according to the following
+; t0 = bDay
 ; t2 = bYear
 ; t1 = bMonth
-lw t2, [sp]
-addi sp, sp, 4
-; t0 = bDay
-lw t1, [sp]
-addi sp, sp, 4
 
-lw t0, [sp]
-addi sp, sp, 4
-
-;   year = bYear + 1
-		addi	s0, t2, 1
+lw t0, 0[sp]
+lw t1, 4[sp]
+lw t2, 8[sp]
+ 
+addi	s0, t2, 1
 ;   age = 1;
 		li	s1, 1
 
@@ -191,13 +187,11 @@ else1
 
 ; }// end of printAgeHistory
 end2	
-
+		addi sp, sp, 12
 		jr	ra
 
 another		defb	"Another person",10,0
 		align
-
-
 
 
 
@@ -210,18 +204,14 @@ main
 ; for part1
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
-
-subi sp, sp, 4
 lw t0, pDay
-sw t0, [sp]
-
-subi sp, sp, 4
 lw t1, pMonth
-sw t1, [sp]
-
-subi sp, sp, 4
 lw t2, sYear
-sw t2, [sp]
+
+addi sp, sp,-12
+sw t2, 8[sp]
+sw t1, 4[sp]
+sw t0, 0[sp]
 
 		jal	printAgeHistory
 
@@ -235,21 +225,16 @@ sw t2, [sp]
 ; printAgeHistory(23, 11, 2000)
 
 ; for part1
-; pass the arguments to the method
+; passsubi the arguments to the method
 ; here use 23 as day, 11 as month and 2000 as year
 li t0, 23
 li t1, 11
 lw t2, sYear
 
-subi sp, sp, 4
-sw t0, [sp]
-
-subi sp, sp, 4
-
-sw t1, [sp]
-
-subi sp, sp, 4
-sw t2, [sp]
+addi sp, sp,-12
+sw t2, 8[sp]
+sw t1, 4[sp]
+sw t0, 0[sp]
 
 		jal	printAgeHistory
 

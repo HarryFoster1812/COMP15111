@@ -204,8 +204,8 @@ main
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
 
-lb t0, pDay
-lb t1, pMonth
+lw t0, pDay
+lw t1, pMonth
 lw t2, sYear
 
 		jal	printAgeHistory

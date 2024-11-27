@@ -7,8 +7,6 @@ print_no	equ	3
 
 cLF		equ	10		; Line-feed character
 
-		align
-
 
 		la	sp, stack_base	; set sp pointing to the end of our stack
 		j	main
@@ -16,13 +14,14 @@ cLF		equ	10		; Line-feed character
 stack		defs	100		; this chunk of memory is for the stack
 stack_base					; This label is 'just after' the stack space
 
-wasborn		defb	"This person was born on ", 0
-was			defb	"This person was ", 0
-on			defb	" on ", 0
-is			defb	"This person is ", 0
-today		defb	" today!", 0
-willbe		defb	"This person will be ",0
 
+wasborn		defb	"This person was born on ",0
+was			defb	"This person was ",0
+on			defb	" on ",0
+is			defb	"This person is ",0
+today		defb	" today!",0
+willbe		defb	"This person will be ",0
+		align
 
 pDay		defw	13		;  pDay = 23    //or whatever is today's date
 pMonth		defw	11		;  pMonth = 11  //or whatever is this month
@@ -49,18 +48,22 @@ printAgeHistory
 
 ;for part 1
 ; move the arguments according to the following
-; t2 = bYear
-lw t2, [sp]
-; t1 = bMonth
-addi sp, sp, 4
-lw t1, [sp]
 ; t0 = bDay
-addi sp, sp, 4
-lw t0, [sp]
-sw ra, [sp]
+; t2 = bYear
+; t1 = bMonth
 
-;   year = bYear + 1
-		addi	s0, t2, 1
+lw t0, 0[sp]
+lw t1, 4[sp]
+lw t2, 8[sp]
+
+; since the caller doesnt need any of the registers and the nested callee only overwrites the return point only the ra needs to be stored 
+addi sp, sp, -12
+sw ra, 0[sp]
+sw s1, 4[sp]
+sw s0, 8[sp]
+
+ 
+addi	s0, t2, 1
 ;   age = 1;
 		li	s1, 1
 
@@ -69,35 +72,49 @@ sw ra, [sp]
 		li	a7, print_str
 		ecall
 		
-        ; save the return point
-
-        ; push parameters
-        subi sp, sp, 4
-        sw t2, [sp]
-
-        subi sp, sp, 4
-        sw t1, [sp]
-
-        subi sp, sp, 4
-        sw t0, [sp]
-
-        jal printTheDate
-
-
+		addi sp, sp, -12
+		sw t0, 0[sp]
+		sw t1, 4[sp]
+		sw t2, 8[sp]
+		
+		jal printTheDate
+		
 		li	a0, cLF
 		li	a7, print_char
 		ecall
 
 ; this code does: while year < pYear //{
-loop1		lw	a0, pYear
+loop1		
 ; for part 4, should be changed to:
 ; while year < pYear or
 ;				(year == pYear and bMonth < pMonth) or
 ;				(year == pYear and bMonth == pMonth and bDay < pDay):
-		bgeu	s0, a0, end1		; Years are unsigned
+		
+		lw a0, pYear
+		lw a1, pMonth
+        lw a2, pDay
+        
+        bgtu s0, a0, end1		; Years are unsigned
+        ; here year is <= to pYear
+        
+        slt t3, s0, a0 ; pYear < year ? 1 : 0
+        bnez t3, start_while_loop ; if true then the first condition is met
+		
+		
+		; if we are here pYear == Year
+        
+		bgtu t1, a1, end1
 
+		; we know pYear == Year and bMonth <= pMonth
+    
+		slt t3, t1, a1        ; bMonth < pMonth ? 1 : 0
+        bnez t3, start_while_loop ; if true then second condition met
+		
+		; we know pYear == Year and bMonth == pMonth
 
+		bgeu t0, a2, end1 ; we only need to check if bDay is < pDay
 
+start_while_loop
 ;  print("This person was " + str(age) + " on " + str(bDay) + "/" + str(bMonth) + "/" + str(year))
 		la	a0, was
 		li	a7, print_str
@@ -108,20 +125,13 @@ loop1		lw	a0, pYear
 		la	a0, on
 		li	a7, print_str
 		ecall
-
-
-        subi sp, sp, 4
-        ; push parameters
-        sw s0, [sp]
-
-        subi sp, sp, 4
-        sw t1, [sp]
-
-        subi sp, sp, 4
-        sw t0, [sp]
-
-        jal printTheDate
-
+		
+		addi sp, sp, -12
+		sw t0, 0[sp]
+		sw t1, 4[sp]
+		sw s0, 8[sp]
+		
+		jal printTheDate
 		
 		li	a0, cLF
 		li	a7, print_char
@@ -141,18 +151,16 @@ end1
 ; for part 4, should be changed to:
 ; if (bMonth == pMonth and bDay == pDay):
 
-		lw	a0, pMonth
 		; bMonth == pMonth
-        	xor t3, t1, t3
-        
+		        	
+			bne	t1, a1, else1
+
+			; we know that bMonth == pMonth
+
         	; bDay == pDay
-        	xor t4, t0, t4
 
-        	; (bMonth == pMonth and bDay == pDay)
-        	add t4, t4, t3
-
-        	; if == 0 then True
-		bne	t4, zero, else1
+			bne	t0, a2, else1
+		
 
 ; print("This person is " + str(age) + " today!")
 		la	a0, is
@@ -182,30 +190,23 @@ else1
 		li	a7, print_str
 		ecall
 		
-
-        ; push parameters
-        subi sp, sp, 4
-        sw s0, [sp]
-
-        subi sp, sp, 4
-        sw t1, [sp]
-
-        subi sp, sp, 4
-        sw t0, [sp]
-
-        jal printTheDate
-
+		addi sp, sp, -12
+		sw t0, 0[sp]
+		sw t1, 4[sp]
+		sw s0, 8[sp]
+		
+		jal printTheDate
+		
 		li	a0, cLF
 		li	a7, print_char
 		ecall
 
 ; }// end of printAgeHistory
 end2	
-		lw ra, [sp]
-		addi sp, sp, 4
+		lw ra, 0[sp]
+		addi sp, sp, 24
 		jr	ra
 
-another		defb	"Another person",10,0
 
 
 printTheDate
@@ -214,33 +215,37 @@ printTheDate
 ; month
 ; year
 
-    lw	a0, [sp]
+    lw	a0, 0[sp]
     li	a7, print_no
     ecall
-    addi sp, sp , 4
 
     li	a0, '/'
     li	a7, print_char
     ecall
 
-    lw	a0, [sp]
+    lw	a0, 4[sp]
     li	a7, print_no
     ecall
-    addi sp, sp , 4
 
     li	a0, '/'
     li	a7, print_char
     ecall
 
-    lw	a0, [sp]
+    lw	a0, 8[sp]
     li	a7, print_no
     ecall
-    addi sp, sp , 4
     
+    addi sp, sp, 12
 
     jr	ra
 
-align
+
+
+another		defb	"Another person",10,0
+		align
+
+
+
 
 ; def main():
 main
@@ -250,18 +255,14 @@ main
 ; for part1
 ; pass the arguments to the method
 ; these are stored in pDay, pMonth and sYear
-
-subi sp, sp, 4
 lw t0, pDay
-sw t0, [sp]
-
-subi sp, sp, 4
 lw t1, pMonth
-sw t1, [sp]
-
-subi sp, sp, 4
 lw t2, sYear
-sw t2, [sp]
+
+addi sp, sp,-12
+sw t2, 8[sp]
+sw t1, 4[sp]
+sw t0, 0[sp]
 
 		jal	printAgeHistory
 
@@ -275,25 +276,19 @@ sw t2, [sp]
 ; printAgeHistory(23, 11, 2000)
 
 ; for part1
-; pass the arguments to the method
+; passsubi the arguments to the method
 ; here use 23 as day, 11 as month and 2000 as year
 li t0, 23
 li t1, 11
 lw t2, sYear
 
-subi sp, sp, 4
-sw t0, [sp]
-
-subi sp, sp, 4
-sw t1, [sp]
-
-subi sp, sp, 4
-sw t2, [sp]
+addi sp, sp,-12
+sw t2, 8[sp]
+sw t1, 4[sp]
+sw t0, 0[sp]
 
 		jal	printAgeHistory
 
 		li	a7, stop
 		ecall
 ; // end of main
-
-        align
