@@ -52,6 +52,10 @@ printAgeHistory
 ; t1 = bMonth
 ; t2 = bYear
 
+addi sp, sp, -8
+sw s1, 0[sp]
+sw s0, 4[sp]
+
 ;   year = bYear + 1
 		addi	s0, t2, 1
 ;   age = 1;
@@ -184,7 +188,9 @@ else1
 
 ; }// end of printAgeHistory
 end2	
-
+		sw s1, 0[sp]
+		sw s0, 4[sp]
+		addi sp, sp, 8
 		jr	ra
 
 another		defb	"Another person",10,0

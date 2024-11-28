@@ -11,7 +11,7 @@ KMD
 00000000:             ; 
 00000000: 00000117    ;                 la      sp, stack_base  ; set sp pointing to the end of our stack
 00000004: 07010113    ; 
-00000008: 2AC0006F    ;                 j       main
+00000008: 2B40006F    ;                 j       main
 0000000C:             ; 
 0000000C:             ; stack           defs    100             ; this chunk of memory is for the stack
 00000070:             ; stack_base                                      ; This label is 'just after' the stack space
@@ -101,7 +101,7 @@ KMD
 00000118: 00612223    ;                 sw t1, 4[sp]
 0000011C: 00712423    ;                 sw t2, 8[sp]
 00000120:             ;                 
-00000120: 140000EF    ;                 jal printTheDate
+00000120: 148000EF    ;                 jal printTheDate
 00000124:             ;                 
 00000124: 00A00513    ;                 li      a0, cLF
 00000128: 00000893    ;                 li      a7, print_char
@@ -161,7 +161,7 @@ KMD
 00000198: 00612223    ;                 sw t1, 4[sp]
 0000019C: 00812423    ;                 sw s0, 8[sp]
 000001A0:             ;                 
-000001A0: 0C0000EF    ;                 jal printTheDate
+000001A0: 0C8000EF    ;                 jal printTheDate
 000001A4:             ;                 
 000001A4: 00A00513    ;                 li      a0, cLF
 000001A8: 00000893    ;                 li      a7, print_char
@@ -230,7 +230,7 @@ KMD
 0000023C: 00612223    ;                 sw t1, 4[sp]
 00000240: 00812423    ;                 sw s0, 8[sp]
 00000244:             ;                 
-00000244: 01C000EF    ;                 jal printTheDate
+00000244: 024000EF    ;                 jal printTheDate
 00000248:             ;                 
 00000248: 00A00513    ;                 li      a0, cLF
 0000024C: 00000893    ;                 li      a7, print_char
@@ -239,102 +239,104 @@ KMD
 00000254:             ; ; }// end of printAgeHistory
 00000254:             ; end2    
 00000254: 00012083    ;                 lw ra, 0[sp]
-00000258: 01810113    ;                 addi sp, sp, 24
-0000025C: 00008067    ;                 jr      ra
-00000260:             ; 
-00000260:             ; 
-00000260:             ; 
-00000260:             ; printTheDate
-00000260:             ; ; parameters that are passed are
-00000260:             ; ; day
-00000260:             ; ; month
-00000260:             ; ; year
-00000260:             ; 
-00000260: 00012503    ;     lw  a0, 0[sp]
-00000264: 00300893    ;     li  a7, print_no
-00000268: 00000073    ;     ecall
-0000026C:             ; 
-0000026C: 02F00513    ;     li  a0, '/'
-00000270: 00000893    ;     li  a7, print_char
-00000274: 00000073    ;     ecall
-00000278:             ; 
-00000278: 00412503    ;     lw  a0, 4[sp]
-0000027C: 00300893    ;     li  a7, print_no
-00000280: 00000073    ;     ecall
-00000284:             ; 
-00000284: 02F00513    ;     li  a0, '/'
-00000288: 00000893    ;     li  a7, print_char
-0000028C: 00000073    ;     ecall
-00000290:             ; 
-00000290: 00812503    ;     lw  a0, 8[sp]
-00000294: 00300893    ;     li  a7, print_no
-00000298: 00000073    ;     ecall
-0000029C:             ;     
-0000029C: 00C10113    ;     addi sp, sp, 12
-000002A0:             ; 
-000002A0: 00008067    ;     jr  ra
-000002A4:             ; 
-000002A4:             ; 
-000002A4:             ; 
-000002A4: 41 6E 6F 74 ; another         defb    "Another person",10,0
-000002A8: 68 65 72 20 ; 
-000002AC: 70 65 72 73 ; 
-000002B0: 6F 6E 0A 00 ; 
-000002B4:             ;                 align
-000002B4:             ; 
-000002B4:             ; 
-000002B4:             ; 
-000002B4:             ; 
-000002B4:             ; ; def main():
-000002B4:             ; main
-000002B4:             ;  
-000002B4:             ; ; printAgeHistory(pDay, pMonth, 2000)
-000002B4:             ; 
-000002B4:             ; ; for part1
-000002B4:             ; ; pass the arguments to the method
-000002B4:             ; ; these are stored in pDay, pMonth and sYear
-000002B4: 00000297    ; lw t0, pDay
-000002B8: E182A283    ; 
-000002BC: 00000317    ; lw t1, pMonth
-000002C0: E1432303    ; 
-000002C4: 00000397    ; lw t2, sYear
-000002C8: E143A383    ; 
-000002CC:             ; 
-000002CC: FF410113    ; addi sp, sp,-12
-000002D0: 00712423    ; sw t2, 8[sp]
-000002D4: 00612223    ; sw t1, 4[sp]
-000002D8: 00512023    ; sw t0, 0[sp]
-000002DC:             ; 
-000002DC: E01FF0EF    ;                 jal     printAgeHistory
-000002E0:             ; 
-000002E0:             ; 
-000002E0:             ; 
-000002E0:             ; ; print("Another person");
-000002E0: 00000517    ;                 la      a0, another
-000002E4: FC450513    ; 
-000002E8: 00200893    ;                 li      a7, print_str
-000002EC: 00000073    ;                 ecall
-000002F0:             ; 
-000002F0:             ; ; printAgeHistory(23, 11, 2000)
-000002F0:             ; 
-000002F0:             ; ; for part1
-000002F0:             ; ; passsubi the arguments to the method
-000002F0:             ; ; here use 23 as day, 11 as month and 2000 as year
-000002F0: 01700293    ; li t0, 23
-000002F4: 00B00313    ; li t1, 11
-000002F8: 00000397    ; lw t2, sYear
-000002FC: DE03A383    ; 
-00000300:             ; 
-00000300: FF410113    ; addi sp, sp,-12
-00000304: 00712423    ; sw t2, 8[sp]
-00000308: 00612223    ; sw t1, 4[sp]
-0000030C: 00512023    ; sw t0, 0[sp]
-00000310:             ; 
-00000310: DCDFF0EF    ;                 jal     printAgeHistory
-00000314:             ; 
-00000314: 00500893    ;                 li      a7, stop
-00000318: 00000073    ;                 ecall
-0000031C:             ; ; // end of main
+00000258: 00412483    ;                 lw s1, 4[sp]
+0000025C: 00812403    ;                 lw s0, 8[sp]
+00000260: 01810113    ;                 addi sp, sp, 24
+00000264: 00008067    ;                 jr      ra
+00000268:             ; 
+00000268:             ; 
+00000268:             ; 
+00000268:             ; printTheDate
+00000268:             ; ; parameters that are passed are
+00000268:             ; ; day
+00000268:             ; ; month
+00000268:             ; ; year
+00000268:             ; 
+00000268: 00012503    ;     lw  a0, 0[sp]
+0000026C: 00300893    ;     li  a7, print_no
+00000270: 00000073    ;     ecall
+00000274:             ; 
+00000274: 02F00513    ;     li  a0, '/'
+00000278: 00000893    ;     li  a7, print_char
+0000027C: 00000073    ;     ecall
+00000280:             ; 
+00000280: 00412503    ;     lw  a0, 4[sp]
+00000284: 00300893    ;     li  a7, print_no
+00000288: 00000073    ;     ecall
+0000028C:             ; 
+0000028C: 02F00513    ;     li  a0, '/'
+00000290: 00000893    ;     li  a7, print_char
+00000294: 00000073    ;     ecall
+00000298:             ; 
+00000298: 00812503    ;     lw  a0, 8[sp]
+0000029C: 00300893    ;     li  a7, print_no
+000002A0: 00000073    ;     ecall
+000002A4:             ;     
+000002A4: 00C10113    ;     addi sp, sp, 12
+000002A8:             ; 
+000002A8: 00008067    ;     jr  ra
+000002AC:             ; 
+000002AC:             ; 
+000002AC:             ; 
+000002AC: 41 6E 6F 74 ; another         defb    "Another person",10,0
+000002B0: 68 65 72 20 ; 
+000002B4: 70 65 72 73 ; 
+000002B8: 6F 6E 0A 00 ; 
+000002BC:             ;                 align
+000002BC:             ; 
+000002BC:             ; 
+000002BC:             ; 
+000002BC:             ; 
+000002BC:             ; ; def main():
+000002BC:             ; main
+000002BC:             ;  
+000002BC:             ; ; printAgeHistory(pDay, pMonth, 2000)
+000002BC:             ; 
+000002BC:             ; ; for part1
+000002BC:             ; ; pass the arguments to the method
+000002BC:             ; ; these are stored in pDay, pMonth and sYear
+000002BC: 00000297    ; lw t0, pDay
+000002C0: E102A283    ; 
+000002C4: 00000317    ; lw t1, pMonth
+000002C8: E0C32303    ; 
+000002CC: 00000397    ; lw t2, sYear
+000002D0: E0C3A383    ; 
+000002D4:             ; 
+000002D4: FF410113    ; addi sp, sp,-12
+000002D8: 00712423    ; sw t2, 8[sp]
+000002DC: 00612223    ; sw t1, 4[sp]
+000002E0: 00512023    ; sw t0, 0[sp]
+000002E4:             ; 
+000002E4: DF9FF0EF    ;                 jal     printAgeHistory
+000002E8:             ; 
+000002E8:             ; 
+000002E8:             ; 
+000002E8:             ; ; print("Another person");
+000002E8: 00000517    ;                 la      a0, another
+000002EC: FC450513    ; 
+000002F0: 00200893    ;                 li      a7, print_str
+000002F4: 00000073    ;                 ecall
+000002F8:             ; 
+000002F8:             ; ; printAgeHistory(23, 11, 2000)
+000002F8:             ; 
+000002F8:             ; ; for part1
+000002F8:             ; ; passsubi the arguments to the method
+000002F8:             ; ; here use 23 as day, 11 as month and 2000 as year
+000002F8: 01700293    ; li t0, 23
+000002FC: 00B00313    ; li t1, 11
+00000300: 00000397    ; lw t2, sYear
+00000304: DD83A383    ; 
+00000308:             ; 
+00000308: FF410113    ; addi sp, sp,-12
+0000030C: 00712423    ; sw t2, 8[sp]
+00000310: 00612223    ; sw t1, 4[sp]
+00000314: 00512023    ; sw t0, 0[sp]
+00000318:             ; 
+00000318: DC5FF0EF    ;                 jal     printAgeHistory
+0000031C:             ; 
+0000031C: 00500893    ;                 li      a7, stop
+00000320: 00000073    ;                 ecall
+00000324:             ; ; // end of main
 
 Symbol Table: Labels
 : print_char                        00000000  Value
@@ -360,6 +362,6 @@ Symbol Table: Labels
 : end1                              000001C4  Label
 : else1                             00000208  Label
 : end2                              00000254  Label
-: printTheDate                      00000260  Label
-: another                           000002A4  Label
-: main                              000002B4  Label
+: printTheDate                      00000268  Label
+: another                           000002AC  Label
+: main                              000002BC  Label

@@ -55,7 +55,12 @@ printAgeHistory
 lw t0, 0[sp]
 lw t1, 4[sp]
 lw t2, 8[sp]
- 
+
+addi sp, sp, -12
+sw ra, 0[sp]
+sw s1, 4[sp]
+sw s0, 8[sp]
+
 addi	s0, t2, 1
 ;   age = 1;
 		li	s1, 1
@@ -187,7 +192,9 @@ else1
 
 ; }// end of printAgeHistory
 end2	
-		addi sp, sp, 12
+		lw s1, 4[sp]
+		lw s0, 8[sp]
+		addi sp, sp, 24
 		jr	ra
 
 another		defb	"Another person",10,0

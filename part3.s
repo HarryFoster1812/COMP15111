@@ -173,6 +173,8 @@ else1
 ; }// end of printAgeHistory
 end2	
 		lw ra, 0[sp]
+		lw s1, 4[sp]
+		lw s0, 8[sp]
 		addi sp, sp, 24
 		jr	ra
 
