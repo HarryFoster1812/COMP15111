@@ -1,0 +1,336 @@
+KMD
+00000000:             ; ; COMP15111 lab 4 - Template file
+00000000:             ; 
+00000000:             ; print_char      equ     0               ; Define names to aid readability
+00000000:             ; stop            equ     5
+00000000:             ; print_str       equ     2
+00000000:             ; print_no        equ     3
+00000000:             ; 
+00000000:             ; cLF             equ     10              ; Line-feed character
+00000000:             ; 
+00000000:             ; 
+00000000: 00000117    ;                 la      sp, stack_base  ; set sp pointing to the end of our stack
+00000004: 07010113    ; 
+00000008: 2900006F    ;                 j       main
+0000000C:             ; 
+0000000C:             ; stack           defs    100             ; this chunk of memory is for the stack
+00000070:             ; stack_base                                      ; This label is 'just after' the stack space
+00000070:             ; 
+00000070:             ; 
+00000070: 54 68 69 73 ; wasborn         defb    "This person was born on ",0
+00000074: 20 70 65 72 ; 
+00000078: 73 6F 6E 20 ; 
+0000007C: 77 61 73 20 ; 
+00000080: 62 6F 72 6E ; 
+00000084: 20 6F 6E 20 ; 
+00000088: 00          ; 
+00000089: 54 68 69 73 ; was                     defb    "This person was ",0
+0000008D: 20 70 65 72 ; 
+00000091: 73 6F 6E 20 ; 
+00000095: 77 61 73 20 ; 
+00000099: 00          ; 
+0000009A: 20 6F 6E 20 ; on                      defb    " on ",0
+0000009E: 00          ; 
+0000009F: 54 68 69 73 ; is                      defb    "This person is ",0
+000000A3: 20 70 65 72 ; 
+000000A7: 73 6F 6E 20 ; 
+000000AB: 69 73 20 00 ; 
+000000AF: 20 74 6F 64 ; today           defb    " today!",0
+000000B3: 61 79 21 00 ; 
+000000B7: 54 68 69 73 ; willbe          defb    "This person will be ",0
+000000BB: 20 70 65 72 ; 
+000000BF: 73 6F 6E 20 ; 
+000000C3: 77 69 6C 6C ; 
+000000C7: 20 62 65 20 ; 
+000000CB: 00          ; 
+000000CC:             ;                 align
+000000CC:             ; 
+000000CC: 0000000D    ; pDay            defw    13              ;  pDay = 23    //or whatever is today's date
+000000D0: 0000000B    ; pMonth          defw    11              ;  pMonth = 11  //or whatever is this month
+000000D4: 000007E8    ; pYear           defw    2024            ;  pYear = 2024 //or whatever is this year
+000000D8:             ; 
+000000D8:             ; 
+000000D8:             ; 
+000000D8: 000007D0    ; sYear           defw    2000
+000000DC:             ; 
+000000DC:             ; 
+000000DC:             ; ; def printAgeHistory (bDay, bMonth, bYear)
+000000DC:             ; 
+000000DC:             ; ; local variables 
+000000DC:             ; ;  s0 = year
+000000DC:             ; ;  s1 = age
+000000DC:             ; ;  t0
+000000DC:             ; ;  t1
+000000DC:             ; ;  t2
+000000DC:             ; ;  t3
+000000DC:             ; ;  t4
+000000DC:             ; 
+000000DC:             ; printAgeHistory 
+000000DC:             ; 
+000000DC:             ; 
+000000DC:             ; ;for part 1
+000000DC:             ; ; move the arguments according to the following
+000000DC:             ; ; t0 = bDay
+000000DC:             ; ; t2 = bYear
+000000DC:             ; ; t1 = bMonth
+000000DC:             ; 
+000000DC: 00012283    ; lw t0, 0[sp]
+000000E0: 00412303    ; lw t1, 4[sp]
+000000E4: 00812383    ; lw t2, 8[sp]
+000000E8:             ; 
+000000E8:             ; ; since the caller doesnt need any of the registers and the nested callee only overwrites the r
+                      ; eturn point only the ra needs to be stored 
+000000E8: FF410113    ; addi sp, sp, -12
+000000EC: 00112023    ; sw ra, 0[sp]
+000000F0: 00912223    ; sw s1, 4[sp]
+000000F4: 00812423    ; sw s0, 8[sp]
+000000F8:             ; 
+000000F8: 00138413    ; addi    s0, t2, 1
+000000FC:             ; ;   age = 1;
+000000FC: 00100493    ;                 li      s1, 1
+00000100:             ; 
+00000100:             ; ; print("This person was born on " + str(bDay) + "/" + str(bMonth) + "/" + str(bYear))
+00000100: 00000517    ;                 la      a0, wasborn
+00000104: F7050513    ; 
+00000108: 00200893    ;                 li      a7, print_str
+0000010C: 00000073    ;                 ecall
+00000110:             ;                 
+00000110: FF410113    ;                 addi sp, sp, -12
+00000114: 00512023    ;                 sw t0, 0[sp]
+00000118: 00612223    ;                 sw t1, 4[sp]
+0000011C: 00712423    ;                 sw t2, 8[sp]
+00000120:             ;                 
+00000120: 124000EF    ;                 jal printTheDate
+00000124:             ;                 
+00000124: 00A00513    ;                 li      a0, cLF
+00000128: 00000893    ;                 li      a7, print_char
+0000012C: 00000073    ;                 ecall
+00000130:             ; 
+00000130:             ; ; this code does: while year < pYear //{
+00000130: 00000517    ; loop1           lw      a0, pYear
+00000134: FA452503    ; 
+00000138:             ; ; for part 4, should be changed to:
+00000138:             ; ; while year < pYear or
+00000138:             ; ;                               (year == pYear and bMonth < pMonth) or
+00000138:             ; ;                               (year == pYear and bMonth == pMonth and bDay < pDay):
+00000138: 06A47263    ;                 bgeu    s0, a0, end1            ; Years are unsigned
+0000013C:             ; 
+0000013C:             ; 
+0000013C:             ; 
+0000013C:             ; ;  print("This person was " + str(age) + " on " + str(bDay) + "/" + str(bMonth) + "/" + str(yea
+                      ; r))
+0000013C: 00000517    ;                 la      a0, was
+00000140: F4D50513    ; 
+00000144: 00200893    ;                 li      a7, print_str
+00000148: 00000073    ;                 ecall
+0000014C: 00048513    ;                 mv      a0, s1
+00000150: 00300893    ;                 li      a7, print_no
+00000154: 00000073    ;                 ecall
+00000158: 00000517    ;                 la      a0, on
+0000015C: F4250513    ; 
+00000160: 00200893    ;                 li      a7, print_str
+00000164: 00000073    ;                 ecall
+00000168:             ;                 
+00000168: FF410113    ;                 addi sp, sp, -12
+0000016C: 00512023    ;                 sw t0, 0[sp]
+00000170: 00612223    ;                 sw t1, 4[sp]
+00000174: 00812423    ;                 sw s0, 8[sp]
+00000178:             ;                 
+00000178: 0CC000EF    ;                 jal printTheDate
+0000017C:             ;                 
+0000017C: 00A00513    ;                 li      a0, cLF
+00000180: 00000893    ;                 li      a7, print_char
+00000184: 00000073    ;                 ecall
+00000188:             ; 
+00000188:             ;                 ; year = year + 1
+00000188: 00140413    ;                 addi    s0, s0, 1
+0000018C: 00140E13    ;                 addi    t3, s0, 1
+00000190: 001E0E93    ;                 addi    t4, t3, 1
+00000194:             ;                 ; age = age + 1
+00000194: 00148493    ;                 addi    s1, s1, 1
+00000198:             ;                 ; //}
+00000198: F99FF06F    ;                 j       loop1
+0000019C:             ; 
+0000019C:             ; end1
+0000019C:             ; ; this code does: if (bMonth == pMonth):
+0000019C:             ; ; for part 4, should be changed to:
+0000019C:             ; ; if (bMonth == pMonth and bDay == pDay):
+0000019C:             ; 
+0000019C: 00000517    ;                 lw      a0, pMonth
+000001A0: F3452503    ; 
+000001A4: 04A31063    ;                 bne     t1, a0, else1
+000001A8:             ; 
+000001A8:             ; ; print("This person is " + str(age) + " today!")
+000001A8: 00000517    ;                 la      a0, is
+000001AC: EF750513    ; 
+000001B0: 00200893    ;                 li      a7, print_str
+000001B4: 00000073    ;                 ecall
+000001B8: 00048513    ;                 mv      a0, s1
+000001BC: 00300893    ;                 li      a7, print_no
+000001C0: 00000073    ;                 ecall
+000001C4: 00000517    ;                 la      a0, today
+000001C8: EEB50513    ; 
+000001CC: 00200893    ;                 li      a7, print_str
+000001D0: 00000073    ;                 ecall
+000001D4: 00A00513    ;                 li      a0, cLF
+000001D8: 00000893    ;                 li      a7, print_char
+000001DC: 00000073    ;                 ecall
+000001E0:             ; 
+000001E0:             ; ; else
+000001E0: 0500006F    ;                 j       end2
+000001E4:             ; else1
+000001E4:             ; ; print("This person will be " + str(age) + " on " + str(bDay) + "/" + str(bMonth) + "/" + str(
+                      ; year))
+000001E4: 00000517    ;                 la      a0, willbe
+000001E8: ED350513    ; 
+000001EC: 00200893    ;                 li      a7, print_str
+000001F0: 00000073    ;                 ecall
+000001F4: 00048513    ;                 mv      a0, s1
+000001F8: 00300893    ;                 li      a7, print_no
+000001FC: 00000073    ;                 ecall
+00000200: 00000517    ;                 la      a0, on
+00000204: E9A50513    ; 
+00000208: 00200893    ;                 li      a7, print_str
+0000020C: 00000073    ;                 ecall
+00000210:             ;                 
+00000210: FF410113    ;                 addi sp, sp, -12
+00000214: 00512023    ;                 sw t0, 0[sp]
+00000218: 00612223    ;                 sw t1, 4[sp]
+0000021C: 00812423    ;                 sw s0, 8[sp]
+00000220:             ;                 
+00000220: 024000EF    ;                 jal printTheDate
+00000224:             ;                 
+00000224: 00A00513    ;                 li      a0, cLF
+00000228: 00000893    ;                 li      a7, print_char
+0000022C: 00000073    ;                 ecall
+00000230:             ; 
+00000230:             ; ; }// end of printAgeHistory
+00000230:             ; end2    
+00000230: 00012083    ;                 lw ra, 0[sp]
+00000234: 00412483    ;                 lw s1, 4[sp]
+00000238: 00812403    ;                 lw s0, 8[sp]
+0000023C: 01810113    ;                 addi sp, sp, 24
+00000240: 00008067    ;                 jr      ra
+00000244:             ; 
+00000244:             ; 
+00000244:             ; 
+00000244:             ; printTheDate
+00000244:             ; ; parameters that are passed are
+00000244:             ; ; day
+00000244:             ; ; month
+00000244:             ; ; year
+00000244:             ; 
+00000244: 00012503    ;     lw  a0, 0[sp]
+00000248: 00300893    ;     li  a7, print_no
+0000024C: 00000073    ;     ecall
+00000250:             ; 
+00000250: 02F00513    ;     li  a0, '/'
+00000254: 00000893    ;     li  a7, print_char
+00000258: 00000073    ;     ecall
+0000025C:             ; 
+0000025C: 00412503    ;     lw  a0, 4[sp]
+00000260: 00300893    ;     li  a7, print_no
+00000264: 00000073    ;     ecall
+00000268:             ; 
+00000268: 02F00513    ;     li  a0, '/'
+0000026C: 00000893    ;     li  a7, print_char
+00000270: 00000073    ;     ecall
+00000274:             ; 
+00000274: 00812503    ;     lw  a0, 8[sp]
+00000278: 00300893    ;     li  a7, print_no
+0000027C: 00000073    ;     ecall
+00000280:             ;     
+00000280: 00C10113    ;     addi sp, sp, 12
+00000284:             ; 
+00000284: 00008067    ;     jr  ra
+00000288:             ; 
+00000288:             ; 
+00000288:             ; 
+00000288: 41 6E 6F 74 ; another         defb    "Another person",10,0
+0000028C: 68 65 72 20 ; 
+00000290: 70 65 72 73 ; 
+00000294: 6F 6E 0A 00 ; 
+00000298:             ;                 align
+00000298:             ; 
+00000298:             ; 
+00000298:             ; 
+00000298:             ; 
+00000298:             ; ; def main():
+00000298:             ; main
+00000298:             ;  
+00000298:             ; ; printAgeHistory(pDay, pMonth, 2000)
+00000298:             ; 
+00000298:             ; ; for part1
+00000298:             ; ; pass the arguments to the method
+00000298:             ; ; these are stored in pDay, pMonth and sYear
+00000298: 00000297    ; lw t0, pDay
+0000029C: E342A283    ; 
+000002A0: 00000317    ; lw t1, pMonth
+000002A4: E3032303    ; 
+000002A8: 00000397    ; lw t2, sYear
+000002AC: E303A383    ; 
+000002B0:             ; 
+000002B0: FF410113    ; addi sp, sp,-12
+000002B4: 00712423    ; sw t2, 8[sp]
+000002B8: 00612223    ; sw t1, 4[sp]
+000002BC: 00512023    ; sw t0, 0[sp]
+000002C0:             ; 
+000002C0: E1DFF0EF    ;                 jal     printAgeHistory
+000002C4:             ; 
+000002C4:             ; 
+000002C4:             ; 
+000002C4:             ; ; print("Another person");
+000002C4: 00000517    ;                 la      a0, another
+000002C8: FC450513    ; 
+000002CC: 00200893    ;                 li      a7, print_str
+000002D0: 00000073    ;                 ecall
+000002D4:             ; 
+000002D4:             ; ; printAgeHistory(23, 11, 2000)
+000002D4:             ; 
+000002D4:             ; ; for part1
+000002D4:             ; ; passsubi the arguments to the method
+000002D4:             ; ; here use 23 as day, 11 as month and 2000 as year
+000002D4: 01700293    ; li t0, 23
+000002D8: 00B00313    ; li t1, 11
+000002DC: 00000397    ; lw t2, sYear
+000002E0: DFC3A383    ; 
+000002E4:             ; 
+000002E4: FF410113    ; addi sp, sp,-12
+000002E8: 00712423    ; sw t2, 8[sp]
+000002EC: 00612223    ; sw t1, 4[sp]
+000002F0: 00512023    ; sw t0, 0[sp]
+000002F4:             ; 
+000002F4: DE9FF0EF    ;                 jal     printAgeHistory
+000002F8:             ; 
+000002F8: 00500893    ;                 li      a7, stop
+000002FC: 00000073    ;                 ecall
+00000300:             ; ; // end of main
+00000300:             ; 
+00000300:             ; 
+
+Symbol Table: Labels
+: print_char                        00000000  Value
+: stop                              00000005  Value
+: print_str                         00000002  Value
+: print_no                          00000003  Value
+: cLF                               0000000A  Value
+: stack                             0000000C  Label
+: stack_base                        00000070  Label
+: wasborn                           00000070  Label
+: was                               00000089  Label
+: on                                0000009A  Label
+: is                                0000009F  Label
+: today                             000000AF  Label
+: willbe                            000000B7  Label
+: pDay                              000000CC  Label
+: pMonth                            000000D0  Label
+: pYear                             000000D4  Label
+: sYear                             000000D8  Label
+: printAgeHistory                   000000DC  Label
+: loop1                             00000130  Label
+: end1                              0000019C  Label
+: else1                             000001E4  Label
+: end2                              00000230  Label
+: printTheDate                      00000244  Label
+: another                           00000288  Label
+: main                              00000298  Label
