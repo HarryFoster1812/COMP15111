@@ -1,0 +1,25 @@
+Q1) After executing the "lw x10, cnt" instruction, the value of PC is (4) and of x10 is (A/10)
+
+Q2) After executing the "lw x11, unit" instruction, the value of PC is (C/12) and of x11 is (1)
+
+Q3) After executing the "lw x12, alpha" instruction, the value of PC is (14/20) and of x12 is (2)
+
+
+(For Q4 and Q5, we are asking about the registers involved in the arithmetic, not PC)
+
+Q4) The first time the "mul" instruction is obeyed, the value of register (x5) changes from (1) to (2)
+
+Q5) The first time the "sub" instruction is obeyed, the value of register (x10) changes from (10) to (9)
+
+
+(For Q6, Q7, and Q8, we are asking about the effect of running the program from the beginning until it stops at the ecall instruction, not about the effect of just one instruction)
+
+Q6) the "beq" instruction (in the loop) is executed (10) times but branches to end only (1) times
+
+Q7) register (x10) counts down from (10) to (0)
+
+Q8) which arithmetic operation does the program implement? (write down the equation in terms of variables val0, unit, alpha, cnt, and res) (res = alpha^cnt)
+
+
+Answer Q9-Q11 by directly editing solution.s
+Answer Q12 by directly editing solution_stretch.s
